@@ -1,0 +1,655 @@
+/* ========================================
+   RESET
+======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    "Noto Sans JP",
+    Arial,
+    sans-serif;
+
+  background: #f4f3ef;
+  color: #181818;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+/* ========================================
+   HEADER
+======================================== */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  z-index: 1200;
+  pointer-events: none;
+}
+
+.header-inner {
+  width: 100%;
+  padding: 0 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: auto;
+}
+
+/* ========================================
+   LOGO
+======================================== */
+
+.logo {
+  position: relative;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  z-index: 1300;
+  transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+  opacity: 0.5;
+}
+
+/* ========================================
+   HAMBURGER
+======================================== */
+
+.hamburger {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  z-index: 1300;
+}
+
+.hamburger span {
+  display: block;
+  width: 27px;
+  height: 1px;
+  background: #000000;
+  transition:
+    transform 0.4s ease,
+    opacity 0.3s ease;
+}
+
+.hamburger.active span:first-child {
+  transform:
+    translateY(8px)
+    rotate(45deg);
+  background-color: #ffffff;
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:last-child {
+  transform:
+    translateY(-8px)
+    rotate(-45deg);
+  background-color: #ffffff;
+}
+
+/* ========================================
+   NAVIGATION
+======================================== */
+
+.nav {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100svh;
+  background: #181818;
+  color: #f4f3ef;
+  z-index: 1100;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1px;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+
+  transition:
+    opacity 0.45s ease,
+    visibility 0.45s ease,
+    transform 0.45s ease;
+
+  pointer-events: none;
+}
+
+.nav.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.nav a {
+  display: block;
+  font-size: clamp(20px, 7vw, 70px);
+  font-weight: 450;
+  letter-spacing: -0.04em;
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.nav a:hover {
+  opacity: 0.45;
+  transform: translateX(12px);
+}
+
+/* ========================================
+   HERO
+======================================== */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 120px 30px;
+}
+
+.hero-content {
+  text-align: center;
+}
+
+.hero-label {
+  margin-bottom: 22px;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  opacity: 0.45;
+}
+
+.hero h1 {
+  font-size: clamp(80px, 17vw, 230px);
+  font-weight: 700;
+  letter-spacing: -0.08em;
+  line-height: 0.85;
+  margin-left: -0.06em;
+}
+
+.hero-text {
+  margin-top: 28px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  opacity: 0.5;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  opacity: 0.4;
+}
+
+/* ========================================
+   WORKS
+======================================== */
+
+.works {
+  min-height: 100svh;
+  padding: 160px 7vw;
+}
+
+.section-heading {
+  max-width: 1200px;
+  margin: 0 auto 80px;
+}
+
+.section-number {
+  margin-bottom: 20px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  opacity: 0.45;
+}
+
+.section-heading h2 {
+  font-size: clamp(50px, 8vw, 110px);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+/* ========================================
+   WORKS GRID
+======================================== */
+
+.works-grid {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 70px 40px;
+}
+
+/* ========================================
+   SLIDER
+======================================== */
+
+.works-slider {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+
+  overflow: hidden;
+
+  padding: 10px 0 30px;
+}
+
+.works-track {
+  display: flex;
+  width: max-content;
+
+  gap: 35px;
+
+  animation:
+    works-scroll 45s linear infinite;
+}
+
+.works-slider-reverse .works-track {
+  animation-direction: reverse;
+}
+
+.works-track .work-card {
+  flex: 0 0 420px;
+  width: 420px;
+}
+
+.works-track .work-image {
+  width: 100%;
+  overflow: hidden;
+
+  border-radius: 16px;
+  background: #deddd8;
+}
+
+.works-track .work-image img {
+  width: 100%;
+  height: auto;
+
+  display: block;
+
+  transition:
+    transform 0.6s ease;
+}
+
+.works-track
+.work-card:hover
+.work-image img {
+  transform: scale(1.03);
+}
+
+@keyframes works-scroll {
+
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform:
+      translateX(
+        calc(-50% - 17.5px)
+      );
+  }
+
+}
+
+/* ========================================
+   WORK CARD
+======================================== */
+
+.work-card {
+  display: block;
+}
+
+.work-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border-radius: 10px;
+}
+
+.work-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.6s ease;
+}
+
+.work-card:hover
+.work-image img {
+  transform: scale(1.03);
+}
+
+.empty-work-image {
+  background: #deddd8;
+}
+
+/* ========================================
+   WORK INFO
+======================================== */
+
+.work-info {
+  padding-top: 18px;
+}
+
+.work-info h3 {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.work-info p {
+  margin-top: 4px;
+
+  font-size: 9px;
+  letter-spacing: 0.18em;
+
+  opacity: 0.45;
+}
+
+/* ========================================
+   ABOUT
+======================================== */
+
+.about {
+  min-height: 100svh;
+
+  padding: 160px 7vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1fr;
+
+  gap: 80px;
+}
+
+.about-title h3 {
+  font-size: clamp(60px, 10vw, 140px);
+
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+}
+
+.about-title p {
+  margin-top: 20px;
+
+  font-size: 10px;
+  letter-spacing: 0.2em;
+
+  opacity: 0.45;
+}
+
+.about-profile {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 300px;
+
+  margin-left: 50px;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+}
+
+.about-text {
+  max-width: 850px;
+}
+
+.about-text p {
+  font-size: 15px;
+  line-height: 2;
+
+  margin-bottom: 25px;
+}
+
+/* ========================================
+   CONTACT
+======================================== */
+
+.contact {
+  min-height: 80svh;
+
+  padding: 160px 7vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-content {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+}
+
+.contact-content p {
+  font-size: 13px;
+  letter-spacing: 0.1em;
+
+  opacity: 0.5;
+}
+
+.contact-link {
+  display: inline-block;
+
+  margin-top: 25px;
+  padding-bottom: 8px;
+
+  border-bottom:
+    1px solid #181818;
+
+  font-size: 13px;
+  letter-spacing: 0.18em;
+
+  transition:
+    opacity 0.3s ease,
+    padding 0.3s ease;
+}
+
+.contact-link:hover {
+  opacity: 0.5;
+  padding-left: 10px;
+}
+
+/* ========================================
+   FOOTER
+======================================== */
+
+.footer {
+  padding: 30px 7vw;
+
+  border-top:
+    1px solid
+    rgba(24, 24, 24, 0.1);
+
+  font-size: 9px;
+  letter-spacing: 0.15em;
+
+  opacity: 0.5;
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 700px) {
+
+  .header {
+    height: 75px;
+  }
+
+  .header-inner {
+    padding: 0 20px;
+  }
+
+  .hamburger {
+    width: 42px;
+    height: 42px;
+  }
+
+  .hamburger span {
+    width: 25px;
+  }
+
+  .nav {
+    gap: 20px;
+  }
+
+  .nav a {
+    font-size: 40px;
+  }
+
+  .hero {
+    padding: 100px 20px;
+  }
+
+  .hero h1 {
+    font-size: 24vw;
+  }
+
+  .hero-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+  }
+
+  .hero-text {
+    font-size: 9px;
+  }
+
+  .works {
+    padding: 120px 25px;
+  }
+
+  .section-heading {
+    margin-bottom: 50px;
+  }
+
+  .section-heading h2 {
+    font-size: 55px;
+  }
+
+  .works-grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .works-track {
+    gap: 20px;
+    animation-duration: 30s;
+  }
+
+  .works-track .work-card {
+    flex: 0 0 75vw;
+    width: 75vw;
+  }
+
+  .about {
+    padding: 120px 25px;
+  }
+
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .about-title h3 {
+    font-size: 80px;
+  }
+
+  .about-profile {
+    gap: 40px;
+    margin-left: 0;
+  }
+
+  .about-text p {
+    font-size: 14px;
+  }
+
+  .contact {
+    padding: 120px 25px;
+  }
+
+  .footer {
+    padding: 25px;
+  }
+
+}
