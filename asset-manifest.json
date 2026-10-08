@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/ratte-portfolio-ex/static/css/main.0227002a.css",
+    "main.js": "/ratte-portfolio-ex/static/js/main.0f3c2d7d.js",
+    "static/media/ブルアカ写真集2finish.png": "/ratte-portfolio-ex/static/media/ブルアカ写真集2finish.dcc60ee2c1cebc4c77b4.png",
+    "static/media/ヤチヨ制服.png": "/ratte-portfolio-ex/static/media/ヤチヨ制服.5e778cfa80410328be01.png",
+    "static/media/2026.8.31誕生日ミク.png": "/ratte-portfolio-ex/static/media/2026.8.31誕生日ミク.c732b333275c81b15d7d.png",
+    "static/media/icon.png": "/ratte-portfolio-ex/static/media/icon.59cf59adab67c1a8d7d8.png",
+    "static/media/vrchat-introduction-card (1).png": "/ratte-portfolio-ex/static/media/vrchat-introduction-card (1).0127a74b40b304e23495.png",
+    "static/media/スクリーンショット 2026-08-13 005902.png": "/ratte-portfolio-ex/static/media/スクリーンショット 2026-08-13 005902.543cdcd7bc02e8c343d2.png",
+    "static/media/ホシノ1.1.png": "/ratte-portfolio-ex/static/media/ホシノ1.1.d2b2f81395929ae95640.png",
+    "static/media/HCzWvL0bgAAkRHB.jpg": "/ratte-portfolio-ex/static/media/HCzWvL0bgAAkRHB.65795bd3c7f05f511c17.jpg",
+    "index.html": "/ratte-portfolio-ex/index.html",
+    "main.0227002a.css.map": "/ratte-portfolio-ex/static/css/main.0227002a.css.map",
+    "main.0f3c2d7d.js.map": "/ratte-portfolio-ex/static/js/main.0f3c2d7d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0227002a.css",
+    "static/js/main.0f3c2d7d.js"
+  ]
+}
