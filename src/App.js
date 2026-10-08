@@ -1,19 +1,70 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+/* ========================================
+   画像の読み込み
+   ※ import はすべてファイルの先頭にまとめる
+======================================== */
+
+/* VRChat / WORKS */
+import vrcImage1 from "./assets/images/VRChat紹介.png";
+import vrcImage2 from "./assets/images/vrchat-introduction-card (1).png";
+import vrcImage3 from "./assets/images/スクリーンショット 2026-08-13 005902.png";
+
+/* Illustration */
 import icon from "./assets/illustration/icon.png";
 import hoshino from "./assets/illustration/ホシノ1.1.png";
 import blueArchive from "./assets/illustration/ブルアカ写真集2finish.png";
 import miku from "./assets/illustration/2026.8.31誕生日ミク.png";
 
+/* Other */
 import yachiyo from "./assets/images/ヤチヨ制服.png";
-import vrchatPhoto from "./assets/images/HCzWvL0bgAAkRHB.jpg";
-import vrchatIntro from "./assets/images/vrchat-introduction-card (1).png";
-import threeD from "./assets/images/スクリーンショット 2026-08-13 005902.png";
-
 import xIcon from "./assets/content/new-2023-twitter-logo-x-icon-design_1017-45418.png";
 
+/* VRC Photo */
+import vrcphoto1 from "./assets/VRCphoto/VRChat001.png"
+import vrcphoto2 from "./assets/VRCphoto/VRChat002.png"
+import vrcphoto3 from "./assets/VRCphoto/VRChat003.png"
+import vrcphoto4 from "./assets/VRCphoto/VRChat004.png"
+import vrcphoto5 from "./assets/VRCphoto/VRChat005.png"
+import vrcphoto6 from "./assets/VRCphoto/VRChat006.png"
+
+
+/* ========================================
+   WORKS 用画像
+   ※ WORKS側はこちらを使用
+======================================== */
+
+const worksVrcImages = [
+  vrcImage1,
+  vrcImage2,
+  vrcImage3,
+];
+
+
+/* ========================================
+   INTRO / BACKGROUND 用画像
+   ※ INTROと背景はこちらを使用
+   ※ 将来、背景だけ変更したい場合は
+      この配列だけ変更すればOK
+======================================== */
+
+const backgroundImages = [
+  vrcphoto1,
+  vrcphoto2,
+  vrcphoto3,
+  vrcphoto4,
+  vrcphoto5,
+  vrcphoto6,
+];
+
+
 function App() {
+
+  /* ========================================
+     MENU
+  ======================================== */
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   const closeMenu = () => {
@@ -24,72 +75,272 @@ function App() {
     setMenuOpen((prev) => !prev);
   };
 
+
+  /* ========================================
+     BACKGROUND SLIDESHOW
+  ======================================== */
+
+  const [backgroundIndex, setBackgroundIndex] = useState(() => {
+    return Math.floor(
+      Math.random() * backgroundImages.length
+    );
+  });
+
   useEffect(() => {
+
+    const timer = setInterval(() => {
+
+      setBackgroundIndex((prev) => {
+        return (
+          (prev + 1) %
+          backgroundImages.length
+        );
+      });
+
+    }, 7000);
+
+    return () => {
+      clearInterval(timer);
+    };
+
+  }, []);
+
+
+  /* ========================================
+     INTRO
+  ======================================== */
+
+  const [introImage] = useState(() => {
+
+    return backgroundImages[
+      Math.floor(
+        Math.random() *
+        backgroundImages.length
+      )
+    ];
+
+  });
+
+  const [introActive, setIntroActive] =
+    useState(true);
+
+  useEffect(() => {
+
+    const timer = setTimeout(() => {
+
+      setIntroActive(false);
+
+    }, 2800);
+
+    return () => {
+
+      clearTimeout(timer);
+
+    };
+
+  }, []);
+
+
+  /* ========================================
+     MENU EVENTS
+  ======================================== */
+
+  useEffect(() => {
+
     const handleEscape = (event) => {
+
       if (event.key === "Escape") {
         closeMenu();
       }
+
     };
 
     const handleResize = () => {
+
       if (window.innerWidth > 700) {
         closeMenu();
       }
+
     };
 
-    document.addEventListener("keydown", handleEscape);
-    window.addEventListener("resize", handleResize);
+    document.addEventListener(
+      "keydown",
+      handleEscape
+    );
+
+    window.addEventListener(
+      "resize",
+      handleResize
+    );
 
     return () => {
-      document.removeEventListener("keydown", handleEscape);
-      window.removeEventListener("resize", handleResize);
+
+      document.removeEventListener(
+        "keydown",
+        handleEscape
+      );
+
+      window.removeEventListener(
+        "resize",
+        handleResize
+      );
+
     };
+
   }, []);
 
+
+  /* ========================================
+     ILLUSTRATIONS
+  ======================================== */
+
   const illustrations = [
+
     {
       image: icon,
       title: "Illustration 01",
       link: null,
     },
+
     {
       image: hoshino,
       title: "Illustration 02",
-      link: "https://x.com/cafe_ratte7art/status/2085241957291532516",
+      link:
+        "https://x.com/cafe_ratte7art/status/2085241957291532516",
     },
+
     {
       image: blueArchive,
       title: "Illustration 03",
-      link: "https://x.com/cafe_ratte7art/status/2099758913302499530/photo/1",
+      link:
+        "https://x.com/cafe_ratte7art/status/2099758913302499530/photo/1",
     },
+
     {
       image: miku,
       title: "Illustration 04",
-      link: "https://x.com/cafe_ratte7art/status/2094120607990554934/photo/1",
+      link:
+        "https://x.com/cafe_ratte7art/status/2094120607990554934/photo/1",
     },
+
   ];
+
+
+  /* ========================================
+     RENDER
+  ======================================== */
 
   return (
     <>
+
+      {/* ========================================
+          BACKGROUND SLIDESHOW
+      ======================================== */}
+
+      <div
+        className="background-slideshow"
+        aria-hidden="true"
+      >
+
+        {backgroundImages.map(
+          (image, index) => (
+
+            <div
+              key={`background-${index}`}
+              className={
+                `background-slide ${
+                  index === backgroundIndex
+                    ? "active"
+                    : ""
+                }`
+              }
+              style={{
+                backgroundImage:
+                  `url("${image}")`,
+              }}
+            />
+
+          )
+        )}
+
+        <div className="background-overlay" />
+
+      </div>
+
+
+      {/* ========================================
+          INTRO
+      ======================================== */}
+
+      {introActive && (
+
+        <div
+          className="intro"
+          aria-hidden="true"
+        >
+
+          <div
+            className="intro-photo intro-photo-top"
+            style={{
+              backgroundImage:
+                `url("${introImage}")`,
+            }}
+          />
+
+          <div
+            className="intro-photo intro-photo-bottom"
+            style={{
+              backgroundImage:
+                `url("${introImage}")`,
+            }}
+          />
+
+          <div className="intro-title">
+
+            <span>
+              Ratte
+            </span>
+
+            <small>
+              CREATIVE PORTFOLIO
+            </small>
+
+          </div>
+
+        </div>
+
+      )}
+
+
       {/* ========================================
           HEADER
       ======================================== */}
 
       <header className="header">
+
         <div className="header-inner">
 
           <button
-            className={`hamburger ${menuOpen ? "active" : ""}`}
+            className={
+              `hamburger ${
+                menuOpen
+                  ? "active"
+                  : ""
+              }`
+            }
             type="button"
             aria-label="メニューを開く"
             aria-expanded={menuOpen}
             aria-controls="navigation"
             onClick={toggleMenu}
           >
+
             <span></span>
             <span></span>
             <span></span>
+
           </button>
+
 
           <a
             href="#home"
@@ -100,25 +351,77 @@ function App() {
           </a>
 
         </div>
+
       </header>
+
 
       {/* ========================================
           NAVIGATION
       ======================================== */}
 
       <nav
-        className={`nav ${menuOpen ? "active" : ""}`}
+        className={
+          `nav ${
+            menuOpen
+              ? "active"
+              : ""
+          }`
+        }
         id="navigation"
         aria-hidden={!menuOpen}
       >
-        <a href="#home" onClick={closeMenu}>HOME</a>
-        <a href="#about" onClick={closeMenu}>ABOUT</a>
-        <a href="#works" onClick={closeMenu}>WORKS</a>
-        <a href="#photography" onClick={closeMenu}>PHOTOGRAPHY</a>
-        <a href="#illustration" onClick={closeMenu}>ILLUSTRATION</a>
-        <a href="#vrchat" onClick={closeMenu}>3D / VRCHAT</a>
-        <a href="#contact" onClick={closeMenu}>CONTACT</a>
+
+        <a
+          href="#home"
+          onClick={closeMenu}
+        >
+          HOME
+        </a>
+
+        <a
+          href="#about"
+          onClick={closeMenu}
+        >
+          ABOUT
+        </a>
+
+        <a
+          href="#works"
+          onClick={closeMenu}
+        >
+          WORKS
+        </a>
+
+        <a
+          href="#photography"
+          onClick={closeMenu}
+        >
+          PHOTOGRAPHY
+        </a>
+
+        <a
+          href="#illustration"
+          onClick={closeMenu}
+        >
+          ILLUSTRATION
+        </a>
+
+        <a
+          href="#vrchat"
+          onClick={closeMenu}
+        >
+          3D / VRCHAT
+        </a>
+
+        <a
+          href="#contact"
+          onClick={closeMenu}
+        >
+          CONTACT
+        </a>
+
       </nav>
+
 
       {/* ========================================
           MAIN
@@ -126,11 +429,15 @@ function App() {
 
       <main>
 
+
         {/* ========================================
             HERO
         ======================================== */}
 
-        <section className="hero" id="home">
+        <section
+          className="hero"
+          id="home"
+        >
 
           <div className="hero-content">
 
@@ -154,11 +461,15 @@ function App() {
 
         </section>
 
+
         {/* ========================================
             ABOUT
         ======================================== */}
 
-        <section className="about" id="about">
+        <section
+          className="about"
+          id="about"
+        >
 
           <div className="about-content">
 
@@ -173,6 +484,7 @@ function App() {
               </p>
 
             </div>
+
 
             <div className="about-profile">
 
@@ -189,14 +501,17 @@ function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
+
                   <img
                     src={xIcon}
                     width="40"
                     alt="X"
                   />
+
                 </a>
 
               </div>
+
 
               <div className="about-text">
 
@@ -227,11 +542,15 @@ function App() {
 
         </section>
 
+
         {/* ========================================
             WORKS
         ======================================== */}
 
-        <section className="works" id="works">
+        <section
+          className="works"
+          id="works"
+        >
 
           <div className="section-heading">
 
@@ -245,12 +564,14 @@ function App() {
 
           </div>
 
+
           <div className="works-grid">
 
             <a
               href="#illustration"
               className="work-card"
             >
+
               <div className="work-image">
 
                 <img
@@ -274,6 +595,7 @@ function App() {
 
             </a>
 
+
             <a
               href="#vrchat"
               className="work-card"
@@ -282,7 +604,7 @@ function App() {
               <div className="work-image">
 
                 <img
-                  src={vrchatPhoto}
+                  src={worksVrcImages[0]}
                   alt="VRChat"
                 />
 
@@ -306,11 +628,15 @@ function App() {
 
         </section>
 
+
         {/* ========================================
             PHOTOGRAPHY
         ======================================== */}
 
-        <section className="works" id="photography">
+        <section
+          className="works"
+          id="photography"
+        >
 
           <div className="section-heading">
 
@@ -326,6 +652,7 @@ function App() {
 
           </div>
 
+
           <div className="works-grid">
 
             <div className="work-card">
@@ -333,7 +660,7 @@ function App() {
               <div className="work-image">
 
                 <img
-                  src={vrchatIntro}
+                  src={worksVrcImages[1]}
                   alt="VRChat Photography"
                 />
 
@@ -357,11 +684,15 @@ function App() {
 
         </section>
 
+
         {/* ========================================
             ILLUSTRATION
         ======================================== */}
 
-        <section className="works" id="illustration">
+        <section
+          className="works"
+          id="illustration"
+        >
 
           <div className="section-heading">
 
@@ -375,16 +706,64 @@ function App() {
 
           </div>
 
+
           {/* 1段目 */}
 
           <div className="works-slider">
 
             <div className="works-track">
 
-              {[...illustrations, ...illustrations].map((item, index) => {
+              {[
+                ...illustrations,
+                ...illustrations,
+              ].map((item, index) => {
 
-                const card = (
-                  <div className="work-card" key={`first-${index}`}>
+                if (item.link) {
+
+                  return (
+
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="work-card"
+                      key={`first-${index}`}
+                    >
+
+                      <div className="work-image">
+
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                        />
+
+                      </div>
+
+                      <div className="work-info">
+
+                        <h3>
+                          {item.title}
+                        </h3>
+
+                        <p>
+                          ILLUSTRATION
+                        </p>
+
+                      </div>
+
+                    </a>
+
+                  );
+
+                }
+
+
+                return (
+
+                  <div
+                    className="work-card"
+                    key={`first-${index}`}
+                  >
 
                     <div className="work-image">
 
@@ -408,100 +787,47 @@ function App() {
                     </div>
 
                   </div>
+
                 );
 
-                if (item.link) {
-                  return (
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="work-card"
-                      key={`first-${index}`}
-                    >
-                      <div className="work-image">
-
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                        />
-
-                      </div>
-
-                      <div className="work-info">
-
-                        <h3>
-                          {item.title}
-                        </h3>
-
-                        <p>
-                          ILLUSTRATION
-                        </p>
-
-                      </div>
-                    </a>
-                  );
-                }
-
-                return card;
               })}
 
             </div>
 
           </div>
 
+
           {/* 2段目 */}
 
-          <div className="works-slider works-slider-reverse">
+          <div
+            className={
+              "works-slider works-slider-reverse"
+            }
+          >
 
             <div className="works-track">
 
-              {["05", "06", "07", "08"].map((number, index) => {
-
-                const cards = [
-                  "05",
-                  "06",
-                  "07",
-                  "08",
-                ];
-
-                const numberIndex = index % cards.length;
-
-                return (
-                  <div
-                    className="work-card"
-                    key={`${number}-${numberIndex}`}
-                  >
-
-                    <div className="work-image empty-work-image">
-                    </div>
-
-                    <div className="work-info">
-
-                      <h3>
-                        Illustration {number}
-                      </h3>
-
-                      <p>
-                        ILLUSTRATION
-                      </p>
-
-                    </div>
-
-                  </div>
-                );
-
-              })}
-
-              {["05", "06", "07", "08"].map((number) => (
+              {[
+                "05",
+                "06",
+                "07",
+                "08",
+                "05",
+                "06",
+                "07",
+                "08",
+              ].map((number, index) => (
 
                 <div
                   className="work-card"
-                  key={`clone-${number}`}
+                  key={`second-${index}`}
                 >
 
-                  <div className="work-image empty-work-image">
-                  </div>
+                  <div
+                    className={
+                      "work-image empty-work-image"
+                    }
+                  />
 
                   <div className="work-info">
 
@@ -525,11 +851,15 @@ function App() {
 
         </section>
 
+
         {/* ========================================
             3D / VRCHAT
         ======================================== */}
 
-        <section className="works" id="vrchat">
+        <section
+          className="works"
+          id="vrchat"
+        >
 
           <div className="section-heading">
 
@@ -543,6 +873,7 @@ function App() {
 
           </div>
 
+
           <div className="works-grid">
 
             <div className="work-card">
@@ -550,7 +881,7 @@ function App() {
               <div className="work-image">
 
                 <img
-                  src={threeD}
+                  src={worksVrcImages[2]}
                   alt="3D Works"
                 />
 
@@ -574,11 +905,15 @@ function App() {
 
         </section>
 
+
         {/* ========================================
             CONTACT
         ======================================== */}
 
-        <section className="contact" id="contact">
+        <section
+          className="contact"
+          id="contact"
+        >
 
           <div className="contact-content">
 
@@ -599,6 +934,7 @@ function App() {
 
         </section>
 
+
         {/* ========================================
             FOOTER
         ======================================== */}
@@ -606,12 +942,13 @@ function App() {
         <footer className="footer">
 
           <p>
-            © 2026 RATE / CREATIVE PORTFOLIO
+            © 2026 RATTE / CREATIVE PORTFOLIO
           </p>
 
         </footer>
 
       </main>
+
     </>
   );
 }
