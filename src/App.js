@@ -1,53 +1,46 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import PhotographyPage from "./pages/PhotographyPage";
+import SiteHeader from "./SiteHeader";
 
-/* ========================================
-   画像の読み込み
-   ※ import はすべてファイルの先頭にまとめる
-======================================== */
+// ========================================
+// 画像の読み込み
+// ========================================
 
-/* VRChat / WORKS */
+// WORKS
 import vrcImage1 from "./assets/images/VRChat紹介.png";
 import vrcImage2 from "./assets/images/vrchat-introduction-card (1).png";
 import vrcImage3 from "./assets/images/スクリーンショット 2026-08-13 005902.png";
 
-/* Illustration */
+// Illustration
 import icon from "./assets/illustration/icon.jpg";
 import hoshino from "./assets/illustration/ホシノ1.1.png";
 import blueArchive from "./assets/illustration/ブルアカ写真集2finish.jpg";
 import miku from "./assets/illustration/2026.8.31誕生日ミク.jpg";
 
-/* Other */
+// Other
 import yachiyo from "./assets/images/ヤチヨ制服.png";
 import xIcon from "./assets/content/new-2023-twitter-logo-x-icon-design_1017-45418.png";
+import pixiv from "./assets/content/unnamed.png";
+import marshmallow from "./assets/content/marshmallow.png";
 
-/* VRC Photo */
-import vrcphoto1 from "./assets/VRCphoto/VRChat001.png"
-import vrcphoto2 from "./assets/VRCphoto/VRChat002.png"
-import vrcphoto3 from "./assets/VRCphoto/VRChat003.png"
-import vrcphoto4 from "./assets/VRCphoto/VRChat004.png"
-import vrcphoto5 from "./assets/VRCphoto/VRChat005.png"
-import vrcphoto6 from "./assets/VRCphoto/VRChat006.png"
+// VRChat Photo
+import vrcphoto1 from "./assets/VRCphoto/VRChat001.png";
+import vrcphoto2 from "./assets/VRCphoto/VRChat002.png";
+import vrcphoto3 from "./assets/VRCphoto/VRChat003.png";
+import vrcphoto4 from "./assets/VRCphoto/VRChat004.png";
+import vrcphoto5 from "./assets/VRCphoto/VRChat005.png";
+import vrcphoto6 from "./assets/VRCphoto/VRChat006.png";
 
-
-/* ========================================
-   WORKS 用画像
-   ※ WORKS側はこちらを使用
-======================================== */
+// ========================================
+// 画像配列
+// ========================================
 
 const worksVrcImages = [
   vrcImage1,
   vrcImage2,
   vrcImage3,
 ];
-
-
-/* ========================================
-   INTRO / BACKGROUND 用画像
-   ※ INTROと背景はこちらを使用
-   ※ 将来、背景だけ変更したい場合は
-      この配列だけ変更すればOK
-======================================== */
 
 const backgroundImages = [
   vrcphoto1,
@@ -58,466 +51,199 @@ const backgroundImages = [
   vrcphoto6,
 ];
 
+// ========================================
+// Home Page
+// ========================================
 
-function App() {
-
-  /* ========================================
-     MENU
-  ======================================== */
-
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
-
-  const toggleMenu = () => {
-    setMenuOpen((prev) => !prev);
-  };
-
-
-  /* ========================================
-     BACKGROUND SLIDESHOW
-  ======================================== */
-
-  const [backgroundIndex, setBackgroundIndex] = useState(() => {
-    return Math.floor(
-      Math.random() * backgroundImages.length
-    );
-  });
+function HomePage() {
+  // 背景スライドショー
+  const [backgroundIndex, setBackgroundIndex] = useState(() =>
+    Math.floor(Math.random() * backgroundImages.length)
+  );
 
   useEffect(() => {
-
     const timer = setInterval(() => {
-
-      setBackgroundIndex((prev) => {
-        return (
-          (prev + 1) %
-          backgroundImages.length
-        );
-      });
-
+      setBackgroundIndex(
+        (prev) => (prev + 1) % backgroundImages.length
+      );
     }, 7000);
 
-    return () => {
-      clearInterval(timer);
-    };
-
+    return () => clearInterval(timer);
   }, []);
 
+  // イントロ画像
+  const [introImage] = useState(
+    () =>
+      backgroundImages[
+        Math.floor(Math.random() * backgroundImages.length)
+      ]
+  );
 
-  /* ========================================
-     INTRO
-  ======================================== */
-
-  const [introImage] = useState(() => {
-
-    return backgroundImages[
-      Math.floor(
-        Math.random() *
-        backgroundImages.length
-      )
-    ];
-
-  });
-
-  const [introActive, setIntroActive] =
-    useState(true);
+  const [introActive, setIntroActive] = useState(true);
 
   useEffect(() => {
-
     const timer = setTimeout(() => {
-
       setIntroActive(false);
-
     }, 2800);
 
-    return () => {
-
-      clearTimeout(timer);
-
-    };
-
+    return () => clearTimeout(timer);
   }, []);
 
-
-  /* ========================================
-     MENU EVENTS
-  ======================================== */
-
+  // 写真ページから指定されたセクションへ移動
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const section = params.get("section");
 
-    const handleEscape = (event) => {
+    if (!section) return;
 
-      if (event.key === "Escape") {
-        closeMenu();
-      }
-
+    const scrollToSection = () => {
+      document.getElementById(section)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     };
 
-    const handleResize = () => {
+    // ページが表示されてからスクロール
+    const timer = setTimeout(scrollToSection, 100);
 
-      if (window.innerWidth > 700) {
-        closeMenu();
-      }
+    // URLからsectionパラメータを取り除く
+    window.history.replaceState({}, "", window.location.pathname);
 
-    };
-
-    document.addEventListener(
-      "keydown",
-      handleEscape
-    );
-
-    window.addEventListener(
-      "resize",
-      handleResize
-    );
-
-    return () => {
-
-      document.removeEventListener(
-        "keydown",
-        handleEscape
-      );
-
-      window.removeEventListener(
-        "resize",
-        handleResize
-      );
-
-    };
-
+    return () => clearTimeout(timer);
   }, []);
 
-
-  /* ========================================
-     ILLUSTRATIONS
-  ======================================== */
-
+  // イラスト一覧
   const illustrations = [
-
     {
       image: icon,
       title: "Illustration 01",
       link: null,
     },
-
     {
       image: hoshino,
       title: "Illustration 02",
       link:
         "https://x.com/cafe_ratte7art/status/2085241957291532516",
     },
-
     {
       image: blueArchive,
       title: "Illustration 03",
       link:
         "https://x.com/cafe_ratte7art/status/2099758913302499530/photo/1",
     },
-
     {
       image: miku,
       title: "Illustration 04",
       link:
         "https://x.com/cafe_ratte7art/status/2094120607990554934/photo/1",
     },
-
   ];
-
-
-  /* ========================================
-     RENDER
-  ======================================== */
 
   return (
     <>
-
-      {/* ========================================
-          BACKGROUND SLIDESHOW
-      ======================================== */}
-
-      <div
-        className="background-slideshow"
-        aria-hidden="true"
-      >
-
-        {backgroundImages.map(
-          (image, index) => (
-
-            <div
-              key={`background-${index}`}
-              className={
-                `background-slide ${
-                  index === backgroundIndex
-                    ? "active"
-                    : ""
-                }`
-              }
-              style={{
-                backgroundImage:
-                  `url("${image}")`,
-              }}
-            />
-
-          )
-        )}
+      {/* 背景スライドショー */}
+      <div className="background-slideshow" aria-hidden="true">
+        {backgroundImages.map((image, index) => (
+          <div
+            key={`background-${index}`}
+            className={`background-slide ${
+              index === backgroundIndex ? "active" : ""
+            }`}
+            style={{ backgroundImage: `url("${image}")` }}
+          />
+        ))}
 
         <div className="background-overlay" />
-
       </div>
 
-
-      {/* ========================================
-          INTRO
-      ======================================== */}
-
+      {/* イントロ */}
       {introActive && (
-
-        <div
-          className="intro"
-          aria-hidden="true"
-        >
-
+        <div className="intro" aria-hidden="true">
           <div
             className="intro-photo intro-photo-top"
-            style={{
-              backgroundImage:
-                `url("${introImage}")`,
-            }}
+            style={{ backgroundImage: `url("${introImage}")` }}
           />
 
           <div
             className="intro-photo intro-photo-bottom"
-            style={{
-              backgroundImage:
-                `url("${introImage}")`,
-            }}
+            style={{ backgroundImage: `url("${introImage}")` }}
           />
 
           <div className="intro-title">
-
-            <span>
-              Ratte
-            </span>
-
-            <small>
-              CREATIVE PORTFOLIO
-            </small>
-
+            <span>Ratte</span>
+            <small>CREATIVE PORTFOLIO</small>
           </div>
-
         </div>
-
       )}
 
-
-      {/* ========================================
-          HEADER
-      ======================================== */}
-
-      <header className="header">
-
-        <div className="header-inner">
-
-          <button
-            className={
-              `hamburger ${
-                menuOpen
-                  ? "active"
-                  : ""
-              }`
-            }
-            type="button"
-            aria-label="メニューを開く"
-            aria-expanded={menuOpen}
-            aria-controls="navigation"
-            onClick={toggleMenu}
-          >
-
-            <span></span>
-            <span></span>
-            <span></span>
-
-          </button>
-
-
-          <a
-            href="#home"
-            className="logo"
-            onClick={closeMenu}
-          >
-            Top
-          </a>
-
-        </div>
-
-      </header>
-
-
-      {/* ========================================
-          NAVIGATION
-      ======================================== */}
-
-      <nav
-        className={
-          `nav ${
-            menuOpen
-              ? "active"
-              : ""
-          }`
-        }
-        id="navigation"
-        aria-hidden={!menuOpen}
-      >
-
-        <a
-          href="#home"
-          onClick={closeMenu}
-        >
-          HOME
-        </a>
-
-        <a
-          href="#about"
-          onClick={closeMenu}
-        >
-          ABOUT
-        </a>
-
-        <a
-          href="#works"
-          onClick={closeMenu}
-        >
-          WORKS
-        </a>
-
-        <a
-          href="#photography"
-          onClick={closeMenu}
-        >
-          PHOTOGRAPHY
-        </a>
-
-        <a
-          href="#illustration"
-          onClick={closeMenu}
-        >
-          ILLUSTRATION
-        </a>
-
-        <a
-          href="#vrchat"
-          onClick={closeMenu}
-        >
-          3D / VRCHAT
-        </a>
-
-        <a
-          href="#contact"
-          onClick={closeMenu}
-        >
-          CONTACT
-        </a>
-
-      </nav>
-
-
-      {/* ========================================
-          MAIN
-      ======================================== */}
+      {/* 共通ヘッダー */}
+      <SiteHeader />
 
       <main>
-
-
-        {/* ========================================
-            HERO
-        ======================================== */}
-
-        <section
-          className="hero"
-          id="home"
-        >
-
+        {/* HERO */}
+        <section className="hero" id="home">
           <div className="hero-content">
+            <p className="hero-label">CREATOR PORTFOLIO</p>
 
-            <p className="hero-label">
-              CREATOR PORTFOLIO
-            </p>
-
-            <h1>
-              Ratte
-            </h1>
+            <h1>Ratte</h1>
 
             <p className="hero-text">
               Illustration / VRChat / 3D / Creative
             </p>
-
           </div>
 
-          <div className="hero-scroll">
-            SCROLL
-          </div>
-
+          <div className="hero-scroll">SCROLL</div>
         </section>
 
-
-        {/* ========================================
-            ABOUT
-        ======================================== */}
-
-        <section
-          className="about"
-          id="about"
-        >
-
+        {/* ABOUT */}
+        <section className="about" id="about">
           <div className="about-content">
-
             <div className="about-title">
-
-              <h3>
-                AboutMe
-              </h3>
-
-              <p>
-                CREATOR / RATTE
-              </p>
-
+              <h3>AboutMe</h3>
+              <p>CREATOR / RATTE</p>
             </div>
 
-
             <div className="about-profile">
-
               <div className="profile">
-
                 <img
                   src={icon}
                   width="200"
                   alt="プロフィール画像"
                 />
 
-                <a
-                  href="https://x.com/cafe_ratte7art"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <div className="social-links">
+                  <a
+                    href="https://x.com/cafe_ratte7art"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={xIcon} alt="X" />
+                  </a>
 
-                  <img
-                    src={xIcon}
-                    width="40"
-                    alt="X"
-                  />
+                  <a
+                    href="https://www.pixiv.net/users/128382196/illustrations"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={pixiv} alt="pixiv" />
+                  </a>
 
-                </a>
-
+                  <a
+                    href="https://marshmallow-qa.com/me"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={marshmallow} alt="marshmallow" />
+                  </a>
+                </div>
               </div>
 
-
               <div className="about-text">
-
                 <p>
-                  こんにちはratteです。<br />
-                  ここには私の今までのイラスト、3D作品、動画などクリエイトしたものがあります。
+                  こんにちはratteです。
+                  <br />
+                  ここには私の今までのイラスト、3D作品、動画など
+                  クリエイトしたものがあります。
                 </p>
 
                 <p>
@@ -533,393 +259,174 @@ function App() {
                   <br />
                   ClipStudio Live2D Blender Unity Aviutl VSCode
                 </p>
-
               </div>
-
             </div>
-
           </div>
-
         </section>
 
-
-        {/* ========================================
-            WORKS
-        ======================================== */}
-
-        <section
-          className="works"
-          id="works"
-        >
-
+        {/* WORKS */}
+        <section className="works" id="works">
           <div className="section-heading">
-
-            <p className="section-number">
-              01 / WORKS
-            </p>
-
-            <h2>
-              SelectedWorks
-            </h2>
-
+            <p className="section-number">01 / WORKS</p>
+            <h2>SelectedWorks</h2>
           </div>
-
 
           <div className="works-grid">
-
-            <a
-              href="#illustration"
-              className="work-card"
-            >
-
+            <a href="#illustration" className="work-card">
               <div className="work-image">
-
-                <img
-                  src={yachiyo}
-                  alt="Illustration"
-                />
-
+                <img src={yachiyo} alt="Illustration" />
               </div>
 
               <div className="work-info">
-
-                <h3>
-                  Illustration
-                </h3>
-
-                <p>
-                  CHARACTER / ARTWORK
-                </p>
-
+                <h3>Illustration</h3>
+                <p>CHARACTER / ARTWORK</p>
               </div>
-
             </a>
 
-
-            <a
-              href="#vrchat"
-              className="work-card"
-            >
-
+            <a href="#vrchat" className="work-card">
               <div className="work-image">
-
-                <img
-                  src={worksVrcImages[0]}
-                  alt="VRChat"
-                />
-
+                <img src={worksVrcImages[0]} alt="VRChat" />
               </div>
 
               <div className="work-info">
-
-                <h3>
-                  VRChat
-                </h3>
-
-                <p>
-                  WORLD / 3D
-                </p>
-
+                <h3>VRChat</h3>
+                <p>WORLD / 3D</p>
               </div>
-
             </a>
-
           </div>
-
         </section>
 
-
-        {/* ========================================
-            PHOTOGRAPHY
-        ======================================== */}
-
-        <section
-          className="works"
-          id="photography"
-        >
-
+        {/* PHOTOGRAPHY */}
+        <section className="works" id="photography">
           <div className="section-heading">
-
-            <p className="section-number">
-              02 / PHOTOGRAPHY
-            </p>
+            <p className="section-number">02 / PHOTOGRAPHY</p>
 
             <h2>
               VRChat
               <br />
               Photography
             </h2>
-
           </div>
 
-
           <div className="works-grid">
-
-            <div className="work-card">
-
+            <a
+              href={`${window.location.pathname}?route=photography`}
+              className="work-card"
+            >
               <div className="work-image">
-
                 <img
                   src={worksVrcImages[1]}
                   alt="VRChat Photography"
                 />
-
               </div>
 
               <div className="work-info">
-
-                <h3>
-                  VRChat Photography
-                </h3>
-
-                <p>
-                  PHOTOGRAPHY
-                </p>
-
+                <h3>VRChat Photography</h3>
+                <p>PHOTOGRAPHY</p>
               </div>
-
-            </div>
-
+            </a>
           </div>
-
         </section>
 
-
-        {/* ========================================
-            ILLUSTRATION
-        ======================================== */}
-
-        <section
-          className="works"
-          id="illustration"
-        >
-
+        {/* ILLUSTRATION */}
+        <section className="works" id="illustration">
           <div className="section-heading">
-
-            <p className="section-number">
-              03 / ILLUSTRATION
-            </p>
-
-            <h2>
-              Illustration
-            </h2>
-
+            <p className="section-number">03 / ILLUSTRATION</p>
+            <h2>Illustration</h2>
           </div>
 
-
           {/* 1段目 */}
-
           <div className="works-slider">
-
             <div className="works-track">
-
-              {[
-                ...illustrations,
-                ...illustrations,
-              ].map((item, index) => {
-
-                if (item.link) {
-
-                  return (
-
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="work-card"
-                      key={`first-${index}`}
-                    >
-
+              {[...illustrations, ...illustrations].map(
+                (item, index) => {
+                  const content = (
+                    <>
                       <div className="work-image">
-
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                        />
-
+                        <img src={item.image} alt={item.title} />
                       </div>
 
                       <div className="work-info">
-
-                        <h3>
-                          {item.title}
-                        </h3>
-
-                        <p>
-                          ILLUSTRATION
-                        </p>
-
+                        <h3>{item.title}</h3>
+                        <p>ILLUSTRATION</p>
                       </div>
-
-                    </a>
-
+                    </>
                   );
 
+                  if (item.link) {
+                    return (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="work-card"
+                        key={`first-${index}`}
+                      >
+                        {content}
+                      </a>
+                    );
+                  }
+
+                  return (
+                    <div
+                      className="work-card"
+                      key={`first-${index}`}
+                    >
+                      {content}
+                    </div>
+                  );
                 }
-
-
-                return (
-
-                  <div
-                    className="work-card"
-                    key={`first-${index}`}
-                  >
-
-                    <div className="work-image">
-
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                      />
-
-                    </div>
-
-                    <div className="work-info">
-
-                      <h3>
-                        {item.title}
-                      </h3>
-
-                      <p>
-                        ILLUSTRATION
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                );
-
-              })}
-
+              )}
             </div>
-
           </div>
-
 
           {/* 2段目 */}
-
-          <div
-            className={
-              "works-slider works-slider-reverse"
-            }
-          >
-
+          <div className="works-slider works-slider-reverse">
             <div className="works-track">
-
-              {[
-                "05",
-                "06",
-                "07",
-                "08",
-                "05",
-                "06",
-                "07",
-                "08",
-              ].map((number, index) => (
-
-                <div
-                  className="work-card"
-                  key={`second-${index}`}
-                >
-
+              {["05", "06", "07", "08", "05", "06", "07", "08"].map(
+                (number, index) => (
                   <div
-                    className={
-                      "work-image empty-work-image"
-                    }
-                  />
+                    className="work-card"
+                    key={`second-${index}`}
+                  >
+                    <div className="work-image empty-work-image" />
 
-                  <div className="work-info">
-
-                    <h3>
-                      Illustration {number}
-                    </h3>
-
-                    <p>
-                      ILLUSTRATION
-                    </p>
-
+                    <div className="work-info">
+                      <h3>Illustration {number}</h3>
+                      <p>ILLUSTRATION</p>
+                    </div>
                   </div>
-
-                </div>
-
-              ))}
-
+                )
+              )}
             </div>
-
           </div>
-
         </section>
 
-
-        {/* ========================================
-            3D / VRCHAT
-        ======================================== */}
-
-        <section
-          className="works"
-          id="vrchat"
-        >
-
+        {/* 3D / VRCHAT */}
+        <section className="works" id="vrchat">
           <div className="section-heading">
-
-            <p className="section-number">
-              04 / 3D & VRCHAT
-            </p>
-
-            <h2>
-              3D / VRChat
-            </h2>
-
+            <p className="section-number">04 / 3D &amp; VRCHAT</p>
+            <h2>3D / VRChat</h2>
           </div>
 
-
           <div className="works-grid">
-
             <div className="work-card">
-
               <div className="work-image">
-
-                <img
-                  src={worksVrcImages[2]}
-                  alt="3D Works"
-                />
-
+                <img src={worksVrcImages[2]} alt="3D Works" />
               </div>
 
               <div className="work-info">
-
-                <h3>
-                  3D Works
-                </h3>
-
-                <p>
-                  BLENDER / VRCHAT
-                </p>
-
+                <h3>3D Works</h3>
+                <p>BLENDER / VRCHAT</p>
               </div>
-
             </div>
-
           </div>
-
         </section>
 
-
-        {/* ========================================
-            CONTACT
-        ======================================== */}
-
-        <section
-          className="contact"
-          id="contact"
-        >
-
+        {/* CONTACT */}
+        <section className="contact" id="contact">
           <div className="contact-content">
-
-            <p>
-              SNSやお問い合わせはこちら。
-            </p>
+            <p>SNSやお問い合わせはこちら。</p>
 
             <a
               href="https://x.com/cafe_ratte7art"
@@ -929,28 +436,30 @@ function App() {
             >
               CONTACT ↗
             </a>
-
           </div>
-
         </section>
 
-
-        {/* ========================================
-            FOOTER
-        ======================================== */}
-
+        {/* FOOTER */}
         <footer className="footer">
-
-          <p>
-            © 2026 RATTE / CREATIVE PORTFOLIO
-          </p>
-
+          <p>© 2026 RATTE / CREATIVE PORTFOLIO</p>
         </footer>
-
       </main>
-
     </>
   );
+}
+
+// ========================================
+// ページ切り替え
+// ========================================
+
+function App() {
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get("route") === "photography") {
+    return <PhotographyPage />;
+  }
+
+  return <HomePage />;
 }
 
 export default App;

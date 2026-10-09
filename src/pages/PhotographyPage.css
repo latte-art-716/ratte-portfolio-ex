@@ -1,0 +1,753 @@
+/* ========================================
+   PHOTOGRAPHY PAGE
+   RATTE / CREATIVE PORTFOLIO
+======================================== */
+
+.photography-page {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 100vh;
+  padding: 140px 7vw 110px;
+  color: #f4f3ef;
+  background: transparent;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    "Noto Sans JP",
+    Arial,
+    sans-serif;
+
+  line-height: 1.6;
+}
+
+.photography-page *,
+.photography-page *::before,
+.photography-page *::after {
+  box-sizing: border-box;
+}
+
+/* ========================================
+   HOME LINK
+======================================== */
+
+.photography-home-link {
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 28px;
+
+  color: inherit;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1.6;
+  text-decoration: none;
+
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.photography-home-link:hover {
+  opacity: 1;
+}
+
+/* ========================================
+   PAGE INTRO ANIMATION
+======================================== */
+
+.photography-intro {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  animation: photographyFadeIn 1.2s ease both;
+}
+
+.photography-heading {
+  margin-bottom: 80px;
+  animation: photographyTitleIn 1s ease both;
+  animation-delay: 0.15s;
+}
+
+.photography-eyebrow {
+  margin: 0 0 20px;
+  color: rgba(244, 243, 239, 0.45);
+
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  line-height: 1.8;
+
+  animation: photographyTextIn 0.8s ease both;
+  animation-delay: 0.3s;
+}
+
+.photography-heading h1 {
+  margin: 0;
+
+  font-family: inherit;
+  font-size: clamp(50px, 8vw, 110px);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+
+  overflow-wrap: anywhere;
+
+  animation: photographyTitleIn 1s ease both;
+  animation-delay: 0.2s;
+}
+
+.photography-subtitle {
+  margin: 22px 0 0;
+  color: rgba(244, 243, 239, 0.5);
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.9;
+
+  animation: photographyTextIn 0.9s ease both;
+  animation-delay: 0.45s;
+}
+
+/* ========================================
+   ALBUM LIST
+======================================== */
+
+.photography-albums {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 70px 40px;
+  align-items: start;
+}
+
+.photography-album-card {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+
+  border: none;
+  color: inherit;
+  background: transparent;
+
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+
+  cursor: pointer;
+
+  animation: photographyCardIn 0.8s ease both;
+  animation-delay: calc(
+    0.3s + var(--album-index, 0) * 0.12s
+  );
+}
+
+/* アルバムカバー */
+
+.photography-cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin: 0 0 18px;
+  overflow: hidden;
+
+  border-radius: 16px;
+  background: #242424;
+}
+
+.photography-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  transition:
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.45s ease;
+}
+
+.photography-album-card:hover .photography-cover img {
+  transform: scale(1.025);
+  filter: brightness(1.05);
+}
+
+.photography-album-card:focus-visible {
+  outline: 1px solid rgba(244, 243, 239, 0.8);
+  outline-offset: 7px;
+  border-radius: 4px;
+}
+
+/* アルバム情報 */
+
+.photography-date {
+  margin: 0 0 8px;
+  color: rgba(244, 243, 239, 0.45);
+
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  line-height: 1.8;
+}
+
+.photography-album-card h2 {
+  margin: 0;
+
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+
+  transition: opacity 0.3s ease;
+}
+
+.photography-album-card:hover h2 {
+  opacity: 0.72;
+}
+
+.photography-description {
+  margin: 8px 0 0;
+  color: rgba(244, 243, 239, 0.58);
+
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 2;
+
+  overflow-wrap: anywhere;
+}
+
+.photography-count {
+  display: inline-block;
+  margin-top: 13px;
+  color: rgba(244, 243, 239, 0.45);
+
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  line-height: 1.8;
+}
+
+.photography-albums > p {
+  grid-column: 1 / -1;
+  padding: 35px 0;
+  color: rgba(244, 243, 239, 0.5);
+  font-size: 15px;
+}
+
+/* ========================================
+   ALBUM DETAIL
+======================================== */
+
+.photography-detail {
+  width: 100%;
+  animation: photographyDetailIn 0.45s ease both;
+}
+
+.photography-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  margin: 0 0 45px;
+  padding: 10px 0;
+
+  border: none;
+  color: rgba(244, 243, 239, 0.65);
+  background: transparent;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.photography-back:hover {
+  color: #fff;
+  transform: translateX(-4px);
+}
+
+.photography-back:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 5px;
+}
+
+.photography-detail-heading {
+  margin-bottom: 48px;
+}
+
+.photography-detail-heading h2 {
+  margin: 0;
+
+  font-family: inherit;
+  font-size: clamp(40px, 6vw, 76px);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+
+  overflow-wrap: anywhere;
+}
+
+.photography-detail-heading .photography-subtitle {
+  margin-top: 15px;
+}
+
+.photography-detail-heading .photography-description {
+  max-width: 680px;
+  margin-top: 18px;
+}
+
+/* ========================================
+   PHOTO GALLERY
+   縦写真・横写真を同じサイズの枠に表示
+======================================== */
+
+.photography-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.photography-photo-card {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 320px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #242424;
+
+  cursor: zoom-in;
+}
+
+.photography-photo-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.35s ease;
+}
+
+.photography-photo-card:hover img {
+  transform: scale(1.025);
+  filter: brightness(1.05);
+}
+
+.photography-photo-card:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 4px;
+}
+
+/* ========================================
+   LIGHTBOX
+======================================== */
+
+.photography-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 65px 90px;
+  background: rgba(0, 0, 0, 0.96);
+
+  animation: photographyLightboxIn 0.25s ease both;
+}
+
+.photography-lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: 85vh;
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.photography-lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 25px;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  width: 46px;
+  height: 46px;
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.photography-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: rotate(90deg);
+}
+
+.photography-lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  width: 48px;
+  height: 64px;
+  padding: 0;
+
+  border: none;
+  border-radius: 7px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+
+  cursor: pointer;
+  transform: translateY(-50%);
+
+  transition: background 0.25s ease;
+}
+
+.photography-lightbox-arrow:hover {
+  background: rgba(255, 255, 255, 0.17);
+}
+
+.photography-lightbox-arrow.prev {
+  left: 22px;
+}
+
+.photography-lightbox-arrow.next {
+  right: 22px;
+}
+
+.photography-lightbox-close:focus-visible,
+.photography-lightbox-arrow:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 3px;
+}
+
+.photography-lightbox-counter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  color: rgba(255, 255, 255, 0.7);
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes photographyFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes photographyTitleIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes photographyTextIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes photographyCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes photographyDetailIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes photographyLightboxIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 900px) {
+  .photography-page {
+    padding: 125px 5vw 85px;
+  }
+
+  .photography-heading {
+    margin-bottom: 65px;
+  }
+
+  .photography-albums {
+    gap: 50px 30px;
+  }
+
+  .photography-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .photography-photo-card {
+    height: 280px;
+  }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 700px) {
+  .photography-page {
+    padding: 115px 20px 65px;
+  }
+
+  .photography-home-link {
+    font-size: 15px;
+  }
+
+  .photography-heading {
+    margin-bottom: 55px;
+  }
+
+  .photography-heading h1 {
+    font-size: 14vw;
+  }
+
+  .photography-eyebrow {
+    font-size: 9px;
+  }
+
+  .photography-subtitle {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+
+  .photography-albums {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .photography-cover {
+    margin-bottom: 14px;
+    border-radius: 12px;
+  }
+
+  .photography-album-card h2 {
+    font-size: 17px;
+  }
+
+  .photography-description {
+    font-size: 13px;
+    line-height: 1.9;
+  }
+
+  .photography-detail-heading {
+    margin-bottom: 30px;
+  }
+
+  .photography-detail-heading h2 {
+    font-size: 10vw;
+  }
+
+  .photography-back {
+    margin-bottom: 30px;
+  }
+
+  .photography-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .photography-photo-card {
+    height: 200px;
+    border-radius: 8px;
+  }
+
+  .photography-lightbox {
+    padding: 55px 42px;
+  }
+
+  .photography-lightbox-image {
+    max-width: 100%;
+    max-height: 80vh;
+  }
+
+  .photography-lightbox-close {
+    top: 10px;
+    right: 10px;
+  }
+
+  .photography-lightbox-arrow {
+    width: 34px;
+    height: 52px;
+    font-size: 25px;
+  }
+
+  .photography-lightbox-arrow.prev {
+    left: 3px;
+  }
+
+  .photography-lightbox-arrow.next {
+    right: 3px;
+  }
+}
+
+/* ========================================
+   BACKGROUND SLIDESHOW
+======================================== */
+
+.photography-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #181818;
+}
+
+.photography-background-slide {
+  position: absolute;
+  inset: 0;
+
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  opacity: 0;
+  transform: scale(1.06);
+
+  transition:
+    opacity 1.8s ease-in-out,
+    transform 7.5s ease;
+
+  will-change: opacity, transform;
+}
+
+.photography-background-slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.photography-background-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 12, 12, 0.76);
+}
+
+/* ========================================
+   REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .photography-intro,
+  .photography-heading,
+  .photography-eyebrow,
+  .photography-heading h1,
+  .photography-subtitle,
+  .photography-album-card,
+  .photography-detail,
+  .photography-lightbox {
+    animation: none;
+  }
+
+  .photography-page *,
+  .photography-page *::before,
+  .photography-page *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .photography-background-slide {
+    transition: none;
+    transform: none;
+  }
+}
