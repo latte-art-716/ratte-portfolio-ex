@@ -12,10 +12,10 @@ import vrcImage2 from "./assets/images/vrchat-introduction-card (1).png";
 import vrcImage3 from "./assets/images/スクリーンショット 2026-08-13 005902.png";
 
 /* Illustration */
-import icon from "./assets/illustration/icon.png";
+import icon from "./assets/illustration/icon.jpg";
 import hoshino from "./assets/illustration/ホシノ1.1.png";
-import blueArchive from "./assets/illustration/ブルアカ写真集2finish.png";
-import miku from "./assets/illustration/2026.8.31誕生日ミク.png";
+import blueArchive from "./assets/illustration/ブルアカ写真集2finish.jpg";
+import miku from "./assets/illustration/2026.8.31誕生日ミク.jpg";
 
 /* Other */
 import yachiyo from "./assets/images/ヤチヨ制服.png";
