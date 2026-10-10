@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import "./App.css";
 import PhotographyPage from "./pages/PhotographyPage";
@@ -62,13 +63,13 @@ function HomePage() {
   );
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const timer = window.setInterval(() => {
       setBackgroundIndex(
         (prev) => (prev + 1) % backgroundImages.length
       );
     }, 7000);
 
-    return () => clearInterval(timer);
+    return () => window.clearInterval(timer);
   }, []);
 
   // イントロ画像
@@ -79,22 +80,136 @@ function HomePage() {
       ]
   );
 
-  const [introActive, setIntroActive] = useState(true);
+  // イントロの状態
+  const [introActive, setIntroActive] = useState(false);
+  const [introFinished, setIntroFinished] = useState(false);
+
+  // ========================================
+  // スクロールロック
+  // イントロ終了までページの移動を禁止
+  // ========================================
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (introFinished) return;
+
+    const preventScroll = (event) => {
+      event.preventDefault();
+    };
+
+    const preventKeyScroll = (event) => {
+      const scrollKeys = [
+        "ArrowUp",
+        "ArrowDown",
+        "PageUp",
+        "PageDown",
+        "Home",
+        "End",
+        " ",
+      ];
+
+      if (scrollKeys.includes(event.key)) {
+        event.preventDefault();
+      }
+    };
+
+    // マウスホイール・タッチによるスクロールを防ぐ
+    window.addEventListener("wheel", preventScroll, {
+      passive: false,
+    });
+
+    window.addEventListener("touchmove", preventScroll, {
+      passive: false,
+    });
+
+    // キーボードによるスクロールを防ぐ
+    window.addEventListener("keydown", preventKeyScroll);
+
+    // ブラウザの通常スクロールもロック
+    const previousHtmlOverflow =
+      document.documentElement.style.overflow;
+
+    const previousBodyOverflow =
+      document.body.style.overflow;
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+      window.removeEventListener("keydown", preventKeyScroll);
+
+      document.documentElement.style.overflow =
+        previousHtmlOverflow;
+
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, [introFinished]);
+
+  // ========================================
+  // イントロ画像の読み込み完了後にアニメーション開始
+  // ========================================
+
+  useEffect(() => {
+    let cancelled = false;
+    let timer;
+    let started = false;
+
+    const image = new Image();
+
+    const startIntro = () => {
+      if (cancelled || started) return;
+
+      started = true;
+      setIntroActive(true);
+
+      // アニメーションを約2.8秒間表示
+      timer = window.setTimeout(() => {
+        if (cancelled) return;
+
+        setIntroActive(false);
+        setIntroFinished(true);
+      }, 2800);
+    };
+
+    image.onload = startIntro;
+
+    // 読み込みに失敗した場合はスクロールを解放
+    image.onerror = () => {
+      if (cancelled) return;
+
       setIntroActive(false);
-    }, 2800);
+      setIntroFinished(true);
+    };
 
-    return () => clearTimeout(timer);
-  }, []);
+    image.src = introImage;
 
+    // すでに画像がキャッシュされている場合
+    if (image.complete && image.naturalWidth > 0) {
+      startIntro();
+    }
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+
+      image.onload = null;
+      image.onerror = null;
+    };
+  }, [introImage]);
+
+  // ========================================
   // 写真ページから指定されたセクションへ移動
+  // ========================================
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const section = params.get("section");
 
     if (!section) return;
+
+    // イントロが終わるまで移動を待つ
+    if (!introFinished) return;
 
     const scrollToSection = () => {
       document.getElementById(section)?.scrollIntoView({
@@ -103,16 +218,21 @@ function HomePage() {
       });
     };
 
-    // ページが表示されてからスクロール
-    const timer = setTimeout(scrollToSection, 100);
+    const timer = window.setTimeout(scrollToSection, 100);
 
-    // URLからsectionパラメータを取り除く
-    window.history.replaceState({}, "", window.location.pathname);
+    window.history.replaceState(
+      {},
+      "",
+      window.location.pathname
+    );
 
-    return () => clearTimeout(timer);
-  }, []);
+    return () => window.clearTimeout(timer);
+  }, [introFinished]);
 
+  // ========================================
   // イラスト一覧
+  // ========================================
+
   const illustrations = [
     {
       image: icon,
@@ -141,32 +261,47 @@ function HomePage() {
 
   return (
     <>
-      {/* 背景スライドショー */}
-      <div className="background-slideshow" aria-hidden="true">
+      {/* ========================================
+          背景スライドショー
+      ======================================== */}
+
+      <div
+        className="background-slideshow"
+        aria-hidden="true"
+      >
         {backgroundImages.map((image, index) => (
           <div
             key={`background-${index}`}
             className={`background-slide ${
               index === backgroundIndex ? "active" : ""
             }`}
-            style={{ backgroundImage: `url("${image}")` }}
+            style={{
+              backgroundImage: `url("${image}")`,
+            }}
           />
         ))}
 
         <div className="background-overlay" />
       </div>
 
-      {/* イントロ */}
+      {/* ========================================
+          イントロ
+      ======================================== */}
+
       {introActive && (
         <div className="intro" aria-hidden="true">
           <div
             className="intro-photo intro-photo-top"
-            style={{ backgroundImage: `url("${introImage}")` }}
+            style={{
+              backgroundImage: `url("${introImage}")`,
+            }}
           />
 
           <div
             className="intro-photo intro-photo-bottom"
-            style={{ backgroundImage: `url("${introImage}")` }}
+            style={{
+              backgroundImage: `url("${introImage}")`,
+            }}
           />
 
           <div className="intro-title">
@@ -180,10 +315,15 @@ function HomePage() {
       <SiteHeader />
 
       <main>
-        {/* HERO */}
+        {/* ========================================
+            HERO
+        ======================================== */}
+
         <section className="hero" id="home">
           <div className="hero-content">
-            <p className="hero-label">CREATOR PORTFOLIO</p>
+            <p className="hero-label">
+              CREATOR PORTFOLIO
+            </p>
 
             <h1>Ratte</h1>
 
@@ -195,7 +335,10 @@ function HomePage() {
           <div className="hero-scroll">SCROLL</div>
         </section>
 
-        {/* ABOUT */}
+        {/* ========================================
+            ABOUT
+        ======================================== */}
+
         <section className="about" id="about">
           <div className="about-content">
             <div className="about-title">
@@ -233,7 +376,10 @@ function HomePage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <img src={marshmallow} alt="marshmallow" />
+                    <img
+                      src={marshmallow}
+                      alt="marshmallow"
+                    />
                   </a>
                 </div>
               </div>
@@ -264,7 +410,10 @@ function HomePage() {
           </div>
         </section>
 
-        {/* WORKS */}
+        {/* ========================================
+            WORKS
+        ======================================== */}
+
         <section className="works" id="works">
           <div className="section-heading">
             <p className="section-number">01 / WORKS</p>
@@ -296,10 +445,15 @@ function HomePage() {
           </div>
         </section>
 
-        {/* PHOTOGRAPHY */}
+        {/* ========================================
+            PHOTOGRAPHY
+        ======================================== */}
+
         <section className="works" id="photography">
           <div className="section-heading">
-            <p className="section-number">02 / PHOTOGRAPHY</p>
+            <p className="section-number">
+              02 / PHOTOGRAPHY
+            </p>
 
             <h2>
               VRChat
@@ -321,17 +475,22 @@ function HomePage() {
               </div>
 
               <div className="work-info">
-                <h3>VRChat Photography</h3>
+                <h3>VRChat Photography ↗</h3>
                 <p>PHOTOGRAPHY</p>
               </div>
             </a>
           </div>
         </section>
 
-        {/* ILLUSTRATION */}
+        {/* ========================================
+            ILLUSTRATION
+        ======================================== */}
+
         <section className="works" id="illustration">
           <div className="section-heading">
-            <p className="section-number">03 / ILLUSTRATION</p>
+            <p className="section-number">
+              03 / ILLUSTRATION
+            </p>
             <h2>Illustration</h2>
           </div>
 
@@ -343,7 +502,10 @@ function HomePage() {
                   const content = (
                     <>
                       <div className="work-image">
-                        <img src={item.image} alt={item.title} />
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                        />
                       </div>
 
                       <div className="work-info">
@@ -383,36 +545,51 @@ function HomePage() {
           {/* 2段目 */}
           <div className="works-slider works-slider-reverse">
             <div className="works-track">
-              {["05", "06", "07", "08", "05", "06", "07", "08"].map(
-                (number, index) => (
-                  <div
-                    className="work-card"
-                    key={`second-${index}`}
-                  >
-                    <div className="work-image empty-work-image" />
+              {[
+                "05",
+                "06",
+                "07",
+                "08",
+                "05",
+                "06",
+                "07",
+                "08",
+              ].map((number, index) => (
+                <div
+                  className="work-card"
+                  key={`second-${index}`}
+                >
+                  <div className="work-image empty-work-image" />
 
-                    <div className="work-info">
-                      <h3>Illustration {number}</h3>
-                      <p>ILLUSTRATION</p>
-                    </div>
+                  <div className="work-info">
+                    <h3>Illustration {number}</h3>
+                    <p>ILLUSTRATION</p>
                   </div>
-                )
-              )}
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* 3D / VRCHAT */}
+        {/* ========================================
+            3D / VRCHAT
+        ======================================== */}
+
         <section className="works" id="vrchat">
           <div className="section-heading">
-            <p className="section-number">04 / 3D &amp; VRCHAT</p>
+            <p className="section-number">
+              04 / 3D &amp; VRCHAT
+            </p>
             <h2>3D / VRChat</h2>
           </div>
 
           <div className="works-grid">
             <div className="work-card">
               <div className="work-image">
-                <img src={worksVrcImages[2]} alt="3D Works" />
+                <img
+                  src={worksVrcImages[2]}
+                  alt="3D Works"
+                />
               </div>
 
               <div className="work-info">
@@ -423,7 +600,10 @@ function HomePage() {
           </div>
         </section>
 
-        {/* CONTACT */}
+        {/* ========================================
+            CONTACT
+        ======================================== */}
+
         <section className="contact" id="contact">
           <div className="contact-content">
             <p>SNSやお問い合わせはこちら。</p>
@@ -439,7 +619,10 @@ function HomePage() {
           </div>
         </section>
 
-        {/* FOOTER */}
+        {/* ========================================
+            FOOTER
+        ======================================== */}
+
         <footer className="footer">
           <p>© 2026 RATTE / CREATIVE PORTFOLIO</p>
         </footer>

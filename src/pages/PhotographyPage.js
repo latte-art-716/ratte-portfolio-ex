@@ -37,6 +37,15 @@ import photo9 from "../assets/Moments VRC 002/009.png";
 import photo10 from "../assets/Moments VRC 002/010.png";
 import photo11 from "../assets/Moments VRC 002/011.png";
 import photo12 from "../assets/Moments VRC 002/012.png";
+import photo13 from "../assets/Moments VRC 003/013.png";
+import photo14 from "../assets/Moments VRC 003/014.png";
+import photo15 from "../assets/Moments VRC 003/015.png";
+import photo16 from "../assets/Moments VRC 003/016.png";
+import photo17 from "../assets/Moments VRC 003/017.png";
+import photo18 from "../assets/Moments VRC 003/018.png";
+import photo19 from "../assets/Moments VRC 003/019.png";
+import photo20 from "../assets/Moments VRC 003/020.png";
+import photo21 from "../assets/Moments VRC 003/021.png";
 
 const backgroundImages = [
   photo1,
@@ -51,6 +60,15 @@ const backgroundImages = [
   photo10,
   photo11,
   photo12,
+  photo13,
+  photo14,
+  photo15,
+  photo16,
+  photo17,
+  photo18,
+  photo19,
+  photo20,
+  photo21,
 ];
 
 // ========================================
@@ -89,7 +107,26 @@ const albums = [
       { src: photo11, alt: "VRChat Photo 011" },
       { src: photo12, alt: "VRChat Photo 012" },
     ],
-  }
+  },
+
+  {
+    id: "vrchat-003",
+    title: "10/08の思い出",
+    date: "2026-10-08",
+    description: "Moments captured in virtual worlds.",
+    cover: photo13,
+    photos: [
+      { src: photo13, alt: "VRChat Photo 013" },
+      { src: photo14, alt: "VRChat Photo 014" },
+      { src: photo15, alt: "VRChat Photo 015" },
+      { src: photo16, alt: "VRChat Photo 016" },
+      { src: photo17, alt: "VRChat Photo 017" },
+      { src: photo18, alt: "VRChat Photo 018" },
+      { src: photo19, alt: "VRChat Photo 019" },
+      { src: photo20, alt: "VRChat Photo 020" },
+      { src: photo21, alt: "VRChat Photo 021" },
+    ],
+  },
 ];
 
 // ========================================
@@ -245,9 +282,12 @@ export default function PhotographyPage() {
       ======================================== */}
 
       <main className="photography-page">
-        <a href="/" className="photography-home-link">
-          ← HOME
-        </a>
+        <a
+            href={process.env.PUBLIC_URL + "/"}
+            className="photography-home-link"
+          >
+            ← HOME
+          </a>
 
         {/* ページタイトル */}
         <header className="photography-heading">

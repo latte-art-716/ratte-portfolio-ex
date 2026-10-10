@@ -1,3 +1,4 @@
+
 /* ========================================
    PHOTOGRAPHY PAGE
    RATTE / CREATIVE PORTFOLIO
@@ -117,12 +118,13 @@
 
 /* ========================================
    ALBUM LIST
+   PC: 3 columns
 ======================================== */
 
 .photography-albums {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 70px 40px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 60px 28px;
   align-items: start;
 }
 
@@ -201,7 +203,7 @@
   margin: 0;
 
   font-family: inherit;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.6;
@@ -220,7 +222,7 @@
   color: rgba(244, 243, 239, 0.58);
 
   font-family: inherit;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 2;
 
@@ -568,7 +570,12 @@
   }
 
   .photography-albums {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 50px 30px;
+  }
+
+  .photography-album-card h2 {
+    font-size: 18px;
   }
 
   .photography-gallery {
