@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ratte-portfolio-ex/static/css/main.9993d3af.css",
-    "main.js": "/ratte-portfolio-ex/static/js/main.15dc4475.js",
+    "main.css": "/ratte-portfolio-ex/static/css/main.b4845f26.css",
+    "main.js": "/ratte-portfolio-ex/static/js/main.936fcdfc.js",
     "static/media/007.png": "/ratte-portfolio-ex/static/media/007.5c81cccdc80f742f390b.png",
     "static/media/001.png": "/ratte-portfolio-ex/static/media/001.11e634e0c91e3cd20f22.png",
     "static/media/005.png": "/ratte-portfolio-ex/static/media/005.e6fd505784b85d68f5eb.png",
@@ -47,11 +47,11 @@
     "static/media/icon.jpg": "/ratte-portfolio-ex/static/media/icon.341eb9b2032ad76cec5c.jpg",
     "static/media/marshmallow.png": "/ratte-portfolio-ex/static/media/marshmallow.46db5977eac9c5f43a40.png",
     "index.html": "/ratte-portfolio-ex/index.html",
-    "main.9993d3af.css.map": "/ratte-portfolio-ex/static/css/main.9993d3af.css.map",
-    "main.15dc4475.js.map": "/ratte-portfolio-ex/static/js/main.15dc4475.js.map"
+    "main.b4845f26.css.map": "/ratte-portfolio-ex/static/css/main.b4845f26.css.map",
+    "main.936fcdfc.js.map": "/ratte-portfolio-ex/static/js/main.936fcdfc.js.map"
   },
   "entrypoints": [
-    "static/css/main.9993d3af.css",
-    "static/js/main.15dc4475.js"
+    "static/css/main.b4845f26.css",
+    "static/js/main.936fcdfc.js"
   ]
 }
