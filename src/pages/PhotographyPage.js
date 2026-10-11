@@ -72,6 +72,8 @@ const backgroundImages = [
   photo20,
   photo21,
   photo23,
+  photo27,
+  photo29,
 ];
 
 // ========================================
