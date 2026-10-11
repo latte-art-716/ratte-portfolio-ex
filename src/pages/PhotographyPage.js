@@ -32,11 +32,13 @@ import photo4 from "../assets/Album/Moments VRC 001/004.png";
 import photo5 from "../assets/Album/Moments VRC 001/005.png";
 import photo6 from "../assets/Album/Moments VRC 001/006.png";
 import photo7 from "../assets/Album/Moments VRC 001/007.png";
+//===========================================================
 import photo8 from "../assets/Album/Moments VRC 002/008.png";
 import photo9 from "../assets/Album/Moments VRC 002/009.png";
 import photo10 from "../assets/Album/Moments VRC 002/010.png";
 import photo11 from "../assets/Album/Moments VRC 002/011.png";
 import photo12 from "../assets/Album/Moments VRC 002/012.png";
+//============================================================
 import photo13 from "../assets/Album/Moments VRC 003/013.png";
 import photo14 from "../assets/Album/Moments VRC 003/014.png";
 import photo15 from "../assets/Album/Moments VRC 003/015.png";
@@ -46,14 +48,24 @@ import photo18 from "../assets/Album/Moments VRC 003/018.png";
 import photo19 from "../assets/Album/Moments VRC 003/019.png";
 import photo20 from "../assets/Album/Moments VRC 003/020.png";
 import photo21 from "../assets/Album/Moments VRC 003/021.png";
+//============================================================
 import photo22 from "../assets/Album/Moments VRC 004/022.png";
 import photo23 from "../assets/Album/Moments VRC 004/023.png";
 import photo24 from "../assets/Album/Moments VRC 004/024.png";
 import photo25 from "../assets/Album/Moments VRC 004/025.png";
+//============================================================
 import photo26 from "../assets/Album/Moments VRC 005/026.png";
 import photo27 from "../assets/Album/Moments VRC 005/027.png";
 import photo28 from "../assets/Album/Moments VRC 005/028.png";
 import photo29 from "../assets/Album/Moments VRC 005/029.png";
+//============================================================
+import photo30 from "../assets/Album/Moments VRC 006/030.png";
+import photo31 from "../assets/Album/Moments VRC 006/031.png";
+import photo32 from "../assets/Album/Moments VRC 006/032.png";
+import photo33 from "../assets/Album/Moments VRC 006/033.png";
+import photo34 from "../assets/Album/Moments VRC 006/034.png";
+import photo35 from "../assets/Album/Moments VRC 006/035.png";
+
 
 const backgroundImages = [
   photo1,
@@ -74,6 +86,11 @@ const backgroundImages = [
   photo23,
   photo27,
   photo29,
+  photo30,
+  photo31,
+  photo32,
+  photo33,
+  photo34,
 ];
 
 // ========================================
@@ -160,6 +177,23 @@ const albums = [
       { src: photo29, alt: "VRChat Photo 029" },
     ],
   },
+
+  {
+    id: "vrchat-006",
+    title: "10/11の思い出",
+    date: "2026-10-11",
+    description: "Moments captured in virtual worlds.",
+    cover: photo31,
+    photos: [
+      { src: photo30, alt: "VRChat Photo 030" },
+      { src: photo31, alt: "VRChat Photo 031" },
+      { src: photo32, alt: "VRChat Photo 032" },
+      { src: photo33, alt: "VRChat Photo 033" },
+      { src: photo34, alt: "VRChat Photo 034" },
+      { src: photo35, alt: "VRChat Photo 035" },
+    ],
+  },
+
 ];
 
 // ========================================
