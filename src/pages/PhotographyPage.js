@@ -25,50 +25,53 @@ import SiteHeader from "../SiteHeader";
 // VRChat写真
 // ========================================
 
-import photo1 from "../assets/Moments VRC 001/001.png";
-import photo2 from "../assets/Moments VRC 001/002.png";
-import photo3 from "../assets/Moments VRC 001/003.png";
-import photo4 from "../assets/Moments VRC 001/004.png";
-import photo5 from "../assets/Moments VRC 001/005.png";
-import photo6 from "../assets/Moments VRC 001/006.png";
-import photo7 from "../assets/Moments VRC 001/007.png";
-import photo8 from "../assets/Moments VRC 002/008.png";
-import photo9 from "../assets/Moments VRC 002/009.png";
-import photo10 from "../assets/Moments VRC 002/010.png";
-import photo11 from "../assets/Moments VRC 002/011.png";
-import photo12 from "../assets/Moments VRC 002/012.png";
-import photo13 from "../assets/Moments VRC 003/013.png";
-import photo14 from "../assets/Moments VRC 003/014.png";
-import photo15 from "../assets/Moments VRC 003/015.png";
-import photo16 from "../assets/Moments VRC 003/016.png";
-import photo17 from "../assets/Moments VRC 003/017.png";
-import photo18 from "../assets/Moments VRC 003/018.png";
-import photo19 from "../assets/Moments VRC 003/019.png";
-import photo20 from "../assets/Moments VRC 003/020.png";
-import photo21 from "../assets/Moments VRC 003/021.png";
+import photo1 from "../assets/Album/Moments VRC 001/001.png";
+import photo2 from "../assets/Album/Moments VRC 001/002.png";
+import photo3 from "../assets/Album/Moments VRC 001/003.png";
+import photo4 from "../assets/Album/Moments VRC 001/004.png";
+import photo5 from "../assets/Album/Moments VRC 001/005.png";
+import photo6 from "../assets/Album/Moments VRC 001/006.png";
+import photo7 from "../assets/Album/Moments VRC 001/007.png";
+import photo8 from "../assets/Album/Moments VRC 002/008.png";
+import photo9 from "../assets/Album/Moments VRC 002/009.png";
+import photo10 from "../assets/Album/Moments VRC 002/010.png";
+import photo11 from "../assets/Album/Moments VRC 002/011.png";
+import photo12 from "../assets/Album/Moments VRC 002/012.png";
+import photo13 from "../assets/Album/Moments VRC 003/013.png";
+import photo14 from "../assets/Album/Moments VRC 003/014.png";
+import photo15 from "../assets/Album/Moments VRC 003/015.png";
+import photo16 from "../assets/Album/Moments VRC 003/016.png";
+import photo17 from "../assets/Album/Moments VRC 003/017.png";
+import photo18 from "../assets/Album/Moments VRC 003/018.png";
+import photo19 from "../assets/Album/Moments VRC 003/019.png";
+import photo20 from "../assets/Album/Moments VRC 003/020.png";
+import photo21 from "../assets/Album/Moments VRC 003/021.png";
+import photo22 from "../assets/Album/Moments VRC 004/022.png";
+import photo23 from "../assets/Album/Moments VRC 004/023.png";
+import photo24 from "../assets/Album/Moments VRC 004/024.png";
+import photo25 from "../assets/Album/Moments VRC 004/025.png";
+import photo26 from "../assets/Album/Moments VRC 005/026.png";
+import photo27 from "../assets/Album/Moments VRC 005/027.png";
+import photo28 from "../assets/Album/Moments VRC 005/028.png";
+import photo29 from "../assets/Album/Moments VRC 005/029.png";
 
 const backgroundImages = [
   photo1,
   photo2,
   photo3,
-  photo4,
   photo5,
   photo6,
   photo7,
   photo8,
   photo9,
   photo10,
-  photo11,
-  photo12,
   photo13,
   photo14,
   photo15,
-  photo16,
-  photo17,
   photo18,
-  photo19,
   photo20,
   photo21,
+  photo23,
 ];
 
 // ========================================
@@ -125,6 +128,34 @@ const albums = [
       { src: photo19, alt: "VRChat Photo 019" },
       { src: photo20, alt: "VRChat Photo 020" },
       { src: photo21, alt: "VRChat Photo 021" },
+    ],
+  },
+
+  {
+    id: "vrchat-004",
+    title: "10/09の思い出",
+    date: "2026-10-09",
+    description: "Moments captured in virtual worlds.",
+    cover: photo22,
+    photos: [
+      { src: photo22, alt: "VRChat Photo 022" },
+      { src: photo23, alt: "VRChat Photo 023" },
+      { src: photo24, alt: "VRChat Photo 024" },
+      { src: photo25, alt: "VRChat Photo 025" },
+    ],
+  },
+
+  {
+    id: "vrchat-005",
+    title: "10/10の思い出",
+    date: "2026-10-10",
+    description: "Moments captured in virtual worlds.",
+    cover: photo26,
+    photos: [
+      { src: photo26, alt: "VRChat Photo 026" },
+      { src: photo27, alt: "VRChat Photo 027" },
+      { src: photo28, alt: "VRChat Photo 028" },
+      { src: photo29, alt: "VRChat Photo 029" },
     ],
   },
 ];
