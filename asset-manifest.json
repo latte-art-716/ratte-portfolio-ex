@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ratte-portfolio-ex/static/css/main.b4845f26.css",
-    "main.js": "/ratte-portfolio-ex/static/js/main.330a24da.js",
+    "main.js": "/ratte-portfolio-ex/static/js/main.726f57c2.js",
     "static/media/007.png": "/ratte-portfolio-ex/static/media/007.5c81cccdc80f742f390b.png",
     "static/media/032.png": "/ratte-portfolio-ex/static/media/032.b1fa47048be238f63241.png",
     "static/media/001.png": "/ratte-portfolio-ex/static/media/001.11e634e0c91e3cd20f22.png",
@@ -56,13 +56,14 @@
     "static/media/ホシノ1.1.png": "/ratte-portfolio-ex/static/media/ホシノ1.1.d2b2f81395929ae95640.png",
     "static/media/2026.8.31誕生日ミク.jpg": "/ratte-portfolio-ex/static/media/2026.8.31誕生日ミク.82f64dcbbce6b629bec4.jpg",
     "static/media/icon.jpg": "/ratte-portfolio-ex/static/media/icon.341eb9b2032ad76cec5c.jpg",
+    "static/media/041.jpg": "/ratte-portfolio-ex/static/media/041.943801e2fc751a67d851.jpg",
     "static/media/marshmallow.png": "/ratte-portfolio-ex/static/media/marshmallow.46db5977eac9c5f43a40.png",
     "index.html": "/ratte-portfolio-ex/index.html",
     "main.b4845f26.css.map": "/ratte-portfolio-ex/static/css/main.b4845f26.css.map",
-    "main.330a24da.js.map": "/ratte-portfolio-ex/static/js/main.330a24da.js.map"
+    "main.726f57c2.js.map": "/ratte-portfolio-ex/static/js/main.726f57c2.js.map"
   },
   "entrypoints": [
     "static/css/main.b4845f26.css",
-    "static/js/main.330a24da.js"
+    "static/js/main.726f57c2.js"
   ]
 }
