@@ -71,6 +71,7 @@ import photo37 from "../assets/Album/Moments VRC 007/037.png";
 import photo38 from "../assets/Album/Moments VRC 007/038.png";
 import photo39 from "../assets/Album/Moments VRC 007/039.png";
 import photo40 from "../assets/Album/Moments VRC 007/040.png";
+import photo41 from "../assets/Album/Moments VRC 007/041.jpg";
 
 
 const backgroundImages = [
@@ -212,6 +213,7 @@ const albums = [
       { src: photo38, alt: "VRChat Photo 038" },
       { src: photo39, alt: "VRChat Photo 039" },
       { src: photo40, alt: "VRChat Photo 040" },
+      { src: photo41, alt: "VRChat Photo 041" },
     ],
   },
 
