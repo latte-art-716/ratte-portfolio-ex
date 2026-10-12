@@ -65,6 +65,12 @@ import photo32 from "../assets/Album/Moments VRC 006/032.png";
 import photo33 from "../assets/Album/Moments VRC 006/033.png";
 import photo34 from "../assets/Album/Moments VRC 006/034.png";
 import photo35 from "../assets/Album/Moments VRC 006/035.png";
+//============================================================
+import photo36 from "../assets/Album/Moments VRC 007/036.png";
+import photo37 from "../assets/Album/Moments VRC 007/037.png";
+import photo38 from "../assets/Album/Moments VRC 007/038.png";
+import photo39 from "../assets/Album/Moments VRC 007/039.png";
+import photo40 from "../assets/Album/Moments VRC 007/040.png";
 
 
 const backgroundImages = [
@@ -191,6 +197,21 @@ const albums = [
       { src: photo33, alt: "VRChat Photo 033" },
       { src: photo34, alt: "VRChat Photo 034" },
       { src: photo35, alt: "VRChat Photo 035" },
+    ],
+  },
+  
+  {
+    id: "vrchat-007",
+    title: "10/12の思い出",
+    date: "2026-10-12",
+    description: "Moments captured in virtual worlds.",
+    cover: photo36,
+    photos: [
+      { src: photo36, alt: "VRChat Photo 036" },
+      { src: photo37, alt: "VRChat Photo 037" },
+      { src: photo38, alt: "VRChat Photo 038" },
+      { src: photo39, alt: "VRChat Photo 039" },
+      { src: photo40, alt: "VRChat Photo 040" },
     ],
   },
 
