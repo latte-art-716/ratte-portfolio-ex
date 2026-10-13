@@ -72,6 +72,14 @@ import photo38 from "../assets/Album/Moments VRC 007/038.png";
 import photo39 from "../assets/Album/Moments VRC 007/039.png";
 import photo40 from "../assets/Album/Moments VRC 007/040.png";
 import photo41 from "../assets/Album/Moments VRC 007/041.jpg";
+//============================================================
+import photo42 from "../assets/Album/Moments VRC 008/042.png";
+import photo43 from "../assets/Album/Moments VRC 008/043.png";
+import photo44 from "../assets/Album/Moments VRC 008/044.png";
+import photo45 from "../assets/Album/Moments VRC 008/045.png";
+import photo46 from "../assets/Album/Moments VRC 008/046.png";
+import photo47 from "../assets/Album/Moments VRC 008/047.png";
+//============================================================
 
 
 const backgroundImages = [
@@ -214,6 +222,22 @@ const albums = [
       { src: photo39, alt: "VRChat Photo 039" },
       { src: photo40, alt: "VRChat Photo 040" },
       { src: photo41, alt: "VRChat Photo 041" },
+    ],
+  },
+
+    {
+    id: "vrchat-008",
+    title: "10/13の思い出",
+    date: "2026-10-13",
+    description: "Moments captured in virtual worlds.",
+    cover: photo42,
+    photos: [
+      { src: photo42, alt: "VRChat Photo 042" },
+      { src: photo43, alt: "VRChat Photo 043" },
+      { src: photo44, alt: "VRChat Photo 044" },
+      { src: photo45, alt: "VRChat Photo 045" },
+      { src: photo46, alt: "VRChat Photo 046" },
+      { src: photo47, alt: "VRChat Photo 047" },
     ],
   },
 
