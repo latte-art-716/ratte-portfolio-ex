@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ratte-portfolio-ex/static/css/main.b4845f26.css",
-    "main.js": "/ratte-portfolio-ex/static/js/main.46433770.js",
+    "main.js": "/ratte-portfolio-ex/static/js/main.82f4b748.js",
     "static/media/032.png": "/ratte-portfolio-ex/static/media/032.2882d97e7c4fc0a32ee5.png",
     "static/media/007.png": "/ratte-portfolio-ex/static/media/007.85cc87adb1b96e9364d2.png",
     "static/media/005.png": "/ratte-portfolio-ex/static/media/005.4f1c5a940c72c52fa524.png",
@@ -25,26 +25,32 @@
     "static/media/VRChat004.png": "/ratte-portfolio-ex/static/media/VRChat004.743485b6616138660795.png",
     "static/media/031.png": "/ratte-portfolio-ex/static/media/031.b922d989f4919e1b0218.png",
     "static/media/034.png": "/ratte-portfolio-ex/static/media/034.ba11f7bf939f6b85beba.png",
+    "static/media/046.png": "/ratte-portfolio-ex/static/media/046.0eb90bf81b5fb4bbf68e.png",
     "static/media/040.png": "/ratte-portfolio-ex/static/media/040.7f2cced36f63fee1126f.png",
     "static/media/039.png": "/ratte-portfolio-ex/static/media/039.7441c057c43bc817e316.png",
     "static/media/010.png": "/ratte-portfolio-ex/static/media/010.6aba988fe0656e5a2497.png",
     "static/media/025.png": "/ratte-portfolio-ex/static/media/025.d7d5ab907d7bb13eaba6.png",
     "static/media/004.png": "/ratte-portfolio-ex/static/media/004.8000628b5700a08420ef.png",
     "static/media/029.png": "/ratte-portfolio-ex/static/media/029.7e758b076d27810364da.png",
+    "static/media/047.png": "/ratte-portfolio-ex/static/media/047.efa14eccecd0505b333e.png",
+    "static/media/045.png": "/ratte-portfolio-ex/static/media/045.d88c3b5cca30a5ed89a5.png",
     "static/media/037.png": "/ratte-portfolio-ex/static/media/037.92f4fb6f7fc8595ff51e.png",
     "static/media/019.png": "/ratte-portfolio-ex/static/media/019.6173f822d08738150335.png",
     "static/media/vrchat-introduction-card (1).png": "/ratte-portfolio-ex/static/media/vrchat-introduction-card (1).0127a74b40b304e23495.png",
     "static/media/017.png": "/ratte-portfolio-ex/static/media/017.38a7215c5c44f59477b7.png",
     "static/media/015.png": "/ratte-portfolio-ex/static/media/015.411cda1dafd70cbdac6f.png",
+    "static/media/042.png": "/ratte-portfolio-ex/static/media/042.84b4f9b3e1081951d9dd.png",
     "static/media/009.png": "/ratte-portfolio-ex/static/media/009.706c50a03abdd40a59a3.png",
     "static/media/020.png": "/ratte-portfolio-ex/static/media/020.956ecda72d1b79cad39b.png",
     "static/media/026.png": "/ratte-portfolio-ex/static/media/026.922f13d738efa40f7a51.png",
+    "static/media/044.png": "/ratte-portfolio-ex/static/media/044.111ed729781329504f09.png",
     "static/media/016.png": "/ratte-portfolio-ex/static/media/016.233c533e3a9f6fc703e3.png",
     "static/media/018.png": "/ratte-portfolio-ex/static/media/018.6c6cefce8579be775b70.png",
     "static/media/028.png": "/ratte-portfolio-ex/static/media/028.dc7613acb245b358e9c2.png",
     "static/media/VRChat003.png": "/ratte-portfolio-ex/static/media/VRChat003.9cffad82442631b6024a.png",
     "static/media/VRChat006.png": "/ratte-portfolio-ex/static/media/VRChat006.6f056ee9615d77b7b47e.png",
     "static/media/033.png": "/ratte-portfolio-ex/static/media/033.17686639255f797f0719.png",
+    "static/media/043.png": "/ratte-portfolio-ex/static/media/043.933d7062ef43e4048af0.png",
     "static/media/VRChat005.png": "/ratte-portfolio-ex/static/media/VRChat005.360c6f6b0451657624a3.png",
     "static/media/003.png": "/ratte-portfolio-ex/static/media/003.7fe7e54a71b90e7c505d.png",
     "static/media/035.png": "/ratte-portfolio-ex/static/media/035.b56a2d1c7bc98d15f7ff.png",
@@ -60,10 +66,10 @@
     "static/media/marshmallow.png": "/ratte-portfolio-ex/static/media/marshmallow.46db5977eac9c5f43a40.png",
     "index.html": "/ratte-portfolio-ex/index.html",
     "main.b4845f26.css.map": "/ratte-portfolio-ex/static/css/main.b4845f26.css.map",
-    "main.46433770.js.map": "/ratte-portfolio-ex/static/js/main.46433770.js.map"
+    "main.82f4b748.js.map": "/ratte-portfolio-ex/static/js/main.82f4b748.js.map"
   },
   "entrypoints": [
     "static/css/main.b4845f26.css",
-    "static/js/main.46433770.js"
+    "static/js/main.82f4b748.js"
   ]
 }
