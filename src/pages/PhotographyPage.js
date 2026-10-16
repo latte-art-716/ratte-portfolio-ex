@@ -1,266 +1,180 @@
-//【追加内容】
-//- アルバム名：
-//- 撮影日：
-//- 説明文：
-//- 写真ファイル名：
-//- 表紙にする写真：
-//- 写真の並び順：
-//
-//【ルール】
-//- 既存のアルバムや写真は削除・変更しない
-//- 新しいアルバムは一番上に表示する
-//- 写真の並び順は指定した順番にする
-//- 既存のデザインや機能は維持する
-//- 必要な import 文も追加する
-//- 変更後のコードは省略せず、ファイル単位で提示する
-//- 不要な部分まで書き換えない
-//=========================================
-//import  from "../assets/Moments VRC/";
-//=========================================
 import { useEffect, useState } from "react";
 import "./PhotographyPage.css";
 import SiteHeader from "../SiteHeader";
 
 // ========================================
-// VRChat写真
+// VRChat写真をフォルダから自動取得
 // ========================================
+//
+// 新しいアルバムは、次のようなフォルダを作成してください。
+//
+// src/assets/Album/2026-10-15/001.png
+// src/assets/Album/2026-10-15/002.png
+//
+// フォルダ名を YYYY-MM-DD にすると、年月・日付を自動認識します。
 
-import photo1 from "../assets/Album/Moments VRC 001/001.png";
-import photo2 from "../assets/Album/Moments VRC 001/002.png";
-import photo3 from "../assets/Album/Moments VRC 001/003.png";
-import photo4 from "../assets/Album/Moments VRC 001/004.png";
-import photo5 from "../assets/Album/Moments VRC 001/005.png";
-import photo6 from "../assets/Album/Moments VRC 001/006.png";
-import photo7 from "../assets/Album/Moments VRC 001/007.png";
-//===========================================================
-import photo8 from "../assets/Album/Moments VRC 002/008.png";
-import photo9 from "../assets/Album/Moments VRC 002/009.png";
-import photo10 from "../assets/Album/Moments VRC 002/010.png";
-import photo11 from "../assets/Album/Moments VRC 002/011.png";
-import photo12 from "../assets/Album/Moments VRC 002/012.png";
-//============================================================
-import photo13 from "../assets/Album/Moments VRC 003/013.png";
-import photo14 from "../assets/Album/Moments VRC 003/014.png";
-import photo15 from "../assets/Album/Moments VRC 003/015.png";
-import photo16 from "../assets/Album/Moments VRC 003/016.png";
-import photo17 from "../assets/Album/Moments VRC 003/017.png";
-import photo18 from "../assets/Album/Moments VRC 003/018.png";
-import photo19 from "../assets/Album/Moments VRC 003/019.png";
-import photo20 from "../assets/Album/Moments VRC 003/020.png";
-import photo21 from "../assets/Album/Moments VRC 003/021.png";
-//============================================================
-import photo22 from "../assets/Album/Moments VRC 004/022.png";
-import photo23 from "../assets/Album/Moments VRC 004/023.png";
-import photo24 from "../assets/Album/Moments VRC 004/024.png";
-import photo25 from "../assets/Album/Moments VRC 004/025.png";
-//============================================================
-import photo26 from "../assets/Album/Moments VRC 005/026.png";
-import photo27 from "../assets/Album/Moments VRC 005/027.png";
-import photo28 from "../assets/Album/Moments VRC 005/028.png";
-import photo29 from "../assets/Album/Moments VRC 005/029.png";
-//============================================================
-import photo30 from "../assets/Album/Moments VRC 006/030.png";
-import photo31 from "../assets/Album/Moments VRC 006/031.png";
-import photo32 from "../assets/Album/Moments VRC 006/032.png";
-import photo33 from "../assets/Album/Moments VRC 006/033.png";
-import photo34 from "../assets/Album/Moments VRC 006/034.png";
-import photo35 from "../assets/Album/Moments VRC 006/035.png";
-//============================================================
-import photo36 from "../assets/Album/Moments VRC 007/036.png";
-import photo37 from "../assets/Album/Moments VRC 007/037.png";
-import photo38 from "../assets/Album/Moments VRC 007/038.png";
-import photo39 from "../assets/Album/Moments VRC 007/039.png";
-import photo40 from "../assets/Album/Moments VRC 007/040.png";
-import photo41 from "../assets/Album/Moments VRC 007/041.jpg";
-//============================================================
-import photo42 from "../assets/Album/Moments VRC 008/042.png";
-import photo43 from "../assets/Album/Moments VRC 008/043.png";
-import photo44 from "../assets/Album/Moments VRC 008/044.png";
-import photo45 from "../assets/Album/Moments VRC 008/045.png";
-import photo46 from "../assets/Album/Moments VRC 008/046.png";
-import photo47 from "../assets/Album/Moments VRC 008/047.png";
-//============================================================
-import photo48 from "../assets/Album/Moments VRC 009/048.png";
-import photo49 from "../assets/Album/Moments VRC 009/049.png";
-import photo50 from "../assets/Album/Moments VRC 009/050.png";
-import photo51 from "../assets/Album/Moments VRC 009/051.png";
-import photo52 from "../assets/Album/Moments VRC 009/052.png";
+const albumImageContext = require.context(
+  "../assets/Album",
+  true,
+  /\.(png|jpe?g|webp)$/i
+);
 
-const backgroundImages = [
-  photo1,
-  photo2,
-  photo3,
-  photo5,
-  photo6,
-  photo7,
-  photo8,
-  photo9,
-  photo10,
-  photo13,
-  photo14,
-  photo15,
-  photo18,
-  photo20,
-  photo21,
-  photo23,
-  photo27,
-  photo29,
-  photo30,
-  photo31,
-  photo32,
-  photo33,
-  photo34,
-];
+const allAlbumImages = albumImageContext.keys().map((path) => {
+  const parts = path.split("/");
+
+  return {
+    path,
+    folder: parts[1],
+    filename: parts.slice(2).join("/"),
+    src: albumImageContext(path),
+  };
+});
 
 // ========================================
-// アルバム設定
-// 新しいアルバムは配列の先頭に追加
+// 既存アルバムの日付・表紙設定
 // ========================================
 
-const albums = [
-  {
-    id: "vrchat-001",
-    title: "10/06の思い出",
-    date: "2026-10-06",
-    description: "Moments captured in virtual worlds.",
-    cover: photo1,
-    photos: [
-      { src: photo1, alt: "VRChat Photo 001" },
-      { src: photo2, alt: "VRChat Photo 002" },
-      { src: photo3, alt: "VRChat Photo 003" },
-      { src: photo4, alt: "VRChat Photo 004" },
-      { src: photo5, alt: "VRChat Photo 005" },
-      { src: photo6, alt: "VRChat Photo 006" },
-      { src: photo7, alt: "VRChat Photo 007" },
-    ],
-  },
-
-  {
-    id: "vrchat-002",
-    title: "10/07の思い出",
-    date: "2026-10-07",
-    description: "Moments captured in virtual worlds.",
-    cover: photo8,
-    photos: [
-      { src: photo8, alt: "VRChat Photo 008" },
-      { src: photo9, alt: "VRChat Photo 009" },
-      { src: photo10, alt: "VRChat Photo 010" },
-      { src: photo11, alt: "VRChat Photo 011" },
-      { src: photo12, alt: "VRChat Photo 012" },
-    ],
-  },
-
-  {
-    id: "vrchat-003",
-    title: "10/08の思い出",
-    date: "2026-10-08",
-    description: "Moments captured in virtual worlds.",
-    cover: photo13,
-    photos: [
-      { src: photo13, alt: "VRChat Photo 013" },
-      { src: photo14, alt: "VRChat Photo 014" },
-      { src: photo15, alt: "VRChat Photo 015" },
-      { src: photo16, alt: "VRChat Photo 016" },
-      { src: photo17, alt: "VRChat Photo 017" },
-      { src: photo18, alt: "VRChat Photo 018" },
-      { src: photo19, alt: "VRChat Photo 019" },
-      { src: photo20, alt: "VRChat Photo 020" },
-      { src: photo21, alt: "VRChat Photo 021" },
-    ],
-  },
-
-  {
-    id: "vrchat-004",
-    title: "10/09の思い出",
-    date: "2026-10-09",
-    description: "Moments captured in virtual worlds.",
-    cover: photo22,
-    photos: [
-      { src: photo22, alt: "VRChat Photo 022" },
-      { src: photo23, alt: "VRChat Photo 023" },
-      { src: photo24, alt: "VRChat Photo 024" },
-      { src: photo25, alt: "VRChat Photo 025" },
-    ],
-  },
-
-  {
-    id: "vrchat-005",
-    title: "10/10の思い出",
-    date: "2026-10-10",
-    description: "Moments captured in virtual worlds.",
-    cover: photo26,
-    photos: [
-      { src: photo26, alt: "VRChat Photo 026" },
-      { src: photo27, alt: "VRChat Photo 027" },
-      { src: photo28, alt: "VRChat Photo 028" },
-      { src: photo29, alt: "VRChat Photo 029" },
-    ],
-  },
-
-  {
-    id: "vrchat-006",
-    title: "10/11の思い出",
+const legacyAlbumInfo = {
+  "Moments VRC 001": { date: "2026-10-06" },
+  "Moments VRC 002": { date: "2026-10-07" },
+  "Moments VRC 003": { date: "2026-10-08" },
+  "Moments VRC 004": { date: "2026-10-09" },
+  "Moments VRC 005": { date: "2026-10-10" },
+  "Moments VRC 006": {
     date: "2026-10-11",
-    description: "Moments captured in virtual worlds.",
-    cover: photo31,
-    photos: [
-      { src: photo30, alt: "VRChat Photo 030" },
-      { src: photo31, alt: "VRChat Photo 031" },
-      { src: photo32, alt: "VRChat Photo 032" },
-      { src: photo33, alt: "VRChat Photo 033" },
-      { src: photo34, alt: "VRChat Photo 034" },
-      { src: photo35, alt: "VRChat Photo 035" },
-    ],
+    cover: "031.png",
   },
-  
-  {
-    id: "vrchat-007",
-    title: "10/12の思い出",
-    date: "2026-10-12",
-    description: "Moments captured in virtual worlds.",
-    cover: photo36,
-    photos: [
-      { src: photo36, alt: "VRChat Photo 036" },
-      { src: photo37, alt: "VRChat Photo 037" },
-      { src: photo38, alt: "VRChat Photo 038" },
-      { src: photo39, alt: "VRChat Photo 039" },
-      { src: photo40, alt: "VRChat Photo 040" },
-      { src: photo41, alt: "VRChat Photo 041" },
-    ],
-  },
+  "Moments VRC 007": { date: "2026-10-12" },
+  "Moments VRC 008": { date: "2026-10-13" },
+  "Moments VRC 009": { date: "2026-10-14" },
+};
 
-    {
-    id: "vrchat-008",
-    title: "10/13の思い出",
-    date: "2026-10-13",
-    description: "Moments captured in virtual worlds.",
-    cover: photo42,
-    photos: [
-      { src: photo42, alt: "VRChat Photo 042" },
-      { src: photo43, alt: "VRChat Photo 043" },
-      { src: photo44, alt: "VRChat Photo 044" },
-      { src: photo45, alt: "VRChat Photo 045" },
-      { src: photo46, alt: "VRChat Photo 046" },
-      { src: photo47, alt: "VRChat Photo 047" },
-    ],
-  },
+// ========================================
+// 背景スライドショーに使う写真
+// ========================================
 
-  {
-    id: "vrchat-009",
-    title: "10/14の思い出",
-    date: "2026-10-14",
-    description: "Moments captured in virtual worlds.",
-    cover: photo48,
-    photos: [
-      { src: photo48, alt: "VRChat Photo 048" },
-      { src: photo49, alt: "VRChat Photo 049" },
-      { src: photo50, alt: "VRChat Photo 050" },
-      { src: photo51, alt: "VRChat Photo 051" },
-      { src: photo52, alt: "VRChat Photo 052" },
-    ],
-  },
-
+const backgroundImageFiles = [
+  ["Moments VRC 001", "001.png"],
+  ["Moments VRC 001", "002.png"],
+  ["Moments VRC 001", "003.png"],
+  ["Moments VRC 001", "005.png"],
+  ["Moments VRC 001", "006.png"],
+  ["Moments VRC 001", "007.png"],
+  ["Moments VRC 002", "008.png"],
+  ["Moments VRC 002", "009.png"],
+  ["Moments VRC 002", "010.png"],
+  ["Moments VRC 003", "013.png"],
+  ["Moments VRC 003", "014.png"],
+  ["Moments VRC 003", "015.png"],
+  ["Moments VRC 003", "018.png"],
+  ["Moments VRC 003", "020.png"],
+  ["Moments VRC 003", "021.png"],
+  ["Moments VRC 004", "023.png"],
+  ["Moments VRC 005", "027.png"],
+  ["Moments VRC 005", "029.png"],
+  ["Moments VRC 006", "030.png"],
+  ["Moments VRC 006", "031.png"],
+  ["Moments VRC 006", "032.png"],
+  ["Moments VRC 006", "033.png"],
+  ["Moments VRC 006", "034.png"],
 ];
+
+const backgroundImages = backgroundImageFiles
+  .map(([folder, filename]) =>
+    allAlbumImages.find(
+      (image) =>
+        image.folder === folder && image.filename === filename
+    )?.src
+  )
+  .filter(Boolean);
+
+// ========================================
+// アルバムをフォルダから自動生成
+// ========================================
+
+const albumFolders = [
+  ...new Set(allAlbumImages.map((image) => image.folder)),
+];
+
+const albums = albumFolders
+  .map((folder) => {
+    const folderImages = allAlbumImages
+      .filter((image) => image.folder === folder)
+      .sort((a, b) =>
+        a.filename.localeCompare(b.filename, undefined, {
+          numeric: true,
+          sensitivity: "base",
+        })
+      );
+
+    const legacyInfo = legacyAlbumInfo[folder];
+
+    // YYYY-MM-DD 形式のフォルダ名を認識
+    const dateFromFolder = /^\d{4}-\d{2}-\d{2}$/.test(folder)
+      ? folder
+      : null;
+
+    const date = legacyInfo?.date || dateFromFolder;
+
+    // 日付が判定できないフォルダはアルバム一覧に表示しない
+    if (!date || folderImages.length === 0) {
+      return null;
+    }
+
+    const match = date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+
+    if (!match) {
+      return null;
+    }
+
+    const [, , month, day] = match;
+    const title = `${Number(month)}/${Number(day)}の思い出`;
+
+    // 既存アルバムに表紙指定があればそれを使用
+    // 新しいアルバムは、ファイル名順で最初の写真を表紙にする
+    const coverImage =
+      folderImages.find(
+        (image) => image.filename === legacyInfo?.cover
+      ) || folderImages[0];
+
+    return {
+      id: `album-${folder}`,
+      folder,
+      title,
+      date,
+      description: "Moments captured in virtual worlds.",
+      cover: coverImage.src,
+      photos: folderImages.map((image) => {
+        const number = image.filename.match(/\d+/)?.[0];
+
+        return {
+          src: image.src,
+          alt: `VRChat Photo ${number || image.filename}`,
+        };
+      }),
+    };
+  })
+  .filter(Boolean);
+
+// ========================================
+// アルバムの並び順・年月一覧
+// ========================================
+
+// 新しい日付のアルバムを先頭に並べる
+const sortedAlbums = [...albums].sort((a, b) =>
+  b.date.localeCompare(a.date)
+);
+
+// アルバムに存在する年月を重複なしで取得し、新しい順に並べる
+const availableMonths = [
+  ...new Set(sortedAlbums.map((album) => album.date.slice(0, 7))),
+].sort((a, b) => b.localeCompare(a));
+
+// プルダウンに表示する年月
+function formatMonth(month) {
+  const [year, monthNumber] = month.split("-");
+  return `${year}年${Number(monthNumber)}月`;
+}
 
 // ========================================
 // 日付表示
@@ -289,14 +203,19 @@ function formatDate(date) {
 export default function PhotographyPage() {
   // 背景スライドショー
   const [backgroundIndex, setBackgroundIndex] = useState(() =>
-    Math.floor(Math.random() * backgroundImages.length)
+    backgroundImages.length > 0
+      ? Math.floor(Math.random() * backgroundImages.length)
+      : 0
   );
 
   useEffect(() => {
+    if (backgroundImages.length <= 1) {
+      return undefined;
+    }
+
     const timer = window.setInterval(() => {
       setBackgroundIndex(
-        (previous) =>
-          (previous + 1) % backgroundImages.length
+        (previous) => (previous + 1) % backgroundImages.length
       );
     }, 7000);
 
@@ -307,32 +226,45 @@ export default function PhotographyPage() {
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
-  // 新しい日付のアルバムを先頭に表示
-  const sortedAlbums = [...albums].sort((a, b) =>
-    b.date.localeCompare(a.date)
+  // 年月フィルター。初期表示は最新の年月
+  const [selectedMonth, setSelectedMonth] = useState(
+    () => availableMonths[0] || ""
   );
+
+  // 選択中の年月に合うアルバムだけを表示
+  const filteredAlbums = selectedMonth
+    ? sortedAlbums.filter((album) =>
+        album.date.startsWith(selectedMonth)
+      )
+    : sortedAlbums;
 
   // ライトボックスの写真移動
   function changePhoto(direction) {
-    if (!selectedAlbum || selectedPhoto === null) return;
+    if (!selectedAlbum || selectedPhoto === null) {
+      return;
+    }
 
     const photoCount = selectedAlbum.photos.length;
 
-    if (photoCount === 0) return;
+    if (photoCount === 0) {
+      return;
+    }
 
     setSelectedPhoto((current) => {
-      if (current === null) return null;
+      if (current === null) {
+        return null;
+      }
 
-      return (
-        (current + direction + photoCount) % photoCount
-      );
+      return (current + direction + photoCount) % photoCount;
     });
   }
 
   // キーボード操作
   useEffect(() => {
     function handleKeyDown(event) {
-      if (selectedPhoto === null) return;
+      if (selectedPhoto === null) {
+        return;
+      }
 
       if (event.key === "Escape") {
         setSelectedPhoto(null);
@@ -340,19 +272,27 @@ export default function PhotographyPage() {
 
       if (event.key === "ArrowRight") {
         setSelectedPhoto((current) => {
-          if (current === null || !selectedAlbum) return current;
+          if (current === null || !selectedAlbum) {
+            return current;
+          }
 
           const count = selectedAlbum.photos.length;
-          return (current + 1) % count;
+
+          return count > 0 ? (current + 1) % count : current;
         });
       }
 
       if (event.key === "ArrowLeft") {
         setSelectedPhoto((current) => {
-          if (current === null || !selectedAlbum) return current;
+          if (current === null || !selectedAlbum) {
+            return current;
+          }
 
           const count = selectedAlbum.photos.length;
-          return (current - 1 + count) % count;
+
+          return count > 0
+            ? (current - 1 + count) % count
+            : current;
         });
       }
     }
@@ -366,9 +306,12 @@ export default function PhotographyPage() {
 
   // ライトボックス表示中は背景スクロールを止める
   useEffect(() => {
-    if (selectedPhoto === null) return;
+    if (selectedPhoto === null) {
+      return undefined;
+    }
 
     const previousOverflow = document.body.style.overflow;
+
     document.body.style.overflow = "hidden";
 
     return () => {
@@ -384,10 +327,7 @@ export default function PhotographyPage() {
 
   return (
     <div className="photography-intro">
-      {/* ========================================
-          背景スライドショー
-      ======================================== */}
-
+      {/* 背景スライドショー */}
       <div
         className="photography-background"
         aria-hidden="true"
@@ -410,17 +350,14 @@ export default function PhotographyPage() {
       {/* 共通ヘッダー */}
       <SiteHeader isPhotography />
 
-      {/* ========================================
-          メインコンテンツ
-      ======================================== */}
-
+      {/* メインコンテンツ */}
       <main className="photography-page">
         <a
-            href={process.env.PUBLIC_URL + "/"}
-            className="photography-home-link"
-          >
-            ← HOME
-          </a>
+          href={process.env.PUBLIC_URL + "/"}
+          className="photography-home-link"
+        >
+          ← HOME
+        </a>
 
         {/* ページタイトル */}
         <header className="photography-heading">
@@ -435,60 +372,100 @@ export default function PhotographyPage() {
           </p>
         </header>
 
-        {/* ========================================
-            アルバム一覧
-        ======================================== */}
-
+        {/* アルバム一覧 */}
         {!selectedAlbum && (
-          <section
-            className="photography-albums"
-            aria-label="Photography albums"
-          >
-            {sortedAlbums.length === 0 ? (
-              <p>アルバムはまだありません。</p>
-            ) : (
-              sortedAlbums.map((album, index) => (
-                <button
-                  type="button"
-                  key={album.id}
-                  className="photography-album-card"
-                  style={{
-                    "--album-index": index,
-                  }}
-                  onClick={() => setSelectedAlbum(album)}
+          <>
+            {/* 年月フィルター */}
+            <div className="photography-filter">
+              <label
+                className="photography-filter-label"
+                htmlFor="photography-month"
+              >
+                SELECT MONTH
+              </label>
+
+              <div className="photography-filter-control">
+                <select
+                  id="photography-month"
+                  className="photography-month-select"
+                  value={selectedMonth}
+                  onChange={(event) =>
+                    setSelectedMonth(event.target.value)
+                  }
+                  aria-label="表示するアルバムの年月"
                 >
-                  <div className="photography-cover">
-                    <img
-                      src={album.cover}
-                      alt={`${album.title} cover`}
-                      loading="lazy"
-                    />
-                  </div>
+                  <option value="">すべての月</option>
 
-                  <p className="photography-date">
-                    {formatDate(album.date)}
-                  </p>
+                  {availableMonths.map((month) => (
+                    <option key={month} value={month}>
+                      {formatMonth(month)}
+                    </option>
+                  ))}
+                </select>
 
-                  <h2>{album.title}</h2>
+                <span
+                  className="photography-filter-chevron"
+                  aria-hidden="true"
+                >
+                  ↓
+                </span>
+              </div>
 
-                  <p className="photography-description">
-                    {album.description}
-                  </p>
+              <p className="photography-filter-count">
+                {filteredAlbums.length}{" "}
+                {filteredAlbums.length === 1 ? "ALBUM" : "ALBUMS"}
+              </p>
+            </div>
 
-                  <span className="photography-count">
-                    {String(album.photos.length).padStart(2, "0")}{" "}
-                    PHOTOS
-                  </span>
-                </button>
-              ))
-            )}
-          </section>
+            <section
+              className="photography-albums"
+              aria-label="Photography albums"
+            >
+              {filteredAlbums.length === 0 ? (
+                <p className="photography-empty">
+                  この月のアルバムはまだありません。
+                </p>
+              ) : (
+                filteredAlbums.map((album, index) => (
+                  <button
+                    type="button"
+                    key={album.id}
+                    className="photography-album-card"
+                    style={{
+                      "--album-index": index,
+                    }}
+                    onClick={() => setSelectedAlbum(album)}
+                  >
+                    <div className="photography-cover">
+                      <img
+                        src={album.cover}
+                        alt={`${album.title} cover`}
+                        loading="lazy"
+                      />
+                    </div>
+
+                    <p className="photography-date">
+                      {formatDate(album.date)}
+                    </p>
+
+                    <h2>{album.title}</h2>
+
+                    <p className="photography-description">
+                      {album.description}
+                    </p>
+
+                    <span className="photography-count">
+                      {String(album.photos.length).padStart(2, "0")}{" "}
+                      PHOTOS
+                    </span>
+                  </button>
+                ))
+              )}
+            </section>
+          </>
         )}
 
-        {/* ========================================
-            アルバム詳細
-        ======================================== */}
-
+        {/* アルバム詳細 */}
         {selectedAlbum && (
           <section
             className="photography-detail"
@@ -540,10 +517,7 @@ export default function PhotographyPage() {
           </section>
         )}
 
-        {/* ========================================
-            ライトボックス
-        ======================================== */}
-
+        {/* ライトボックス */}
         {selectedPhoto !== null && selectedAlbum && (
           <div
             className="photography-lightbox"
@@ -601,10 +575,7 @@ export default function PhotographyPage() {
             <p className="photography-lightbox-counter">
               {String(selectedPhoto + 1).padStart(2, "0")}
               {" / "}
-              {String(selectedAlbum.photos.length).padStart(
-                2,
-                "0"
-              )}
+              {String(selectedAlbum.photos.length).padStart(2, "0")}
             </p>
           </div>
         )}
