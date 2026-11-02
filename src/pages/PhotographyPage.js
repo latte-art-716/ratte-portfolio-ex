@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import "./PhotographyPage.css";
 import SiteHeader from "../SiteHeader";
@@ -6,12 +7,14 @@ import SiteHeader from "../SiteHeader";
 // VRChat写真をフォルダから自動取得
 // ========================================
 //
-// 新しいアルバムは、次のようなフォルダを作成してください。
+// 新しいアルバムは、次の形式のフォルダーを作成してください。
 //
-// src/assets/Album/2026-10-15/001.png
-// src/assets/Album/2026-10-15/002.png
+// src/assets/Album/2026-11-02_2026-11-08/001.png
+// src/assets/Album/2026-11-02_2026-11-08/002.png
 //
-// フォルダ名を YYYY-MM-DD にすると、年月・日付を自動認識します。
+// フォルダー名：開始日_終了日（YYYY-MM-DD_YYYY-MM-DD）
+//
+// 以前の YYYY-MM-DD 形式や Moments VRC 001～009 も対応しています。
 
 const albumImageContext = require.context(
   "../assets/Album",
@@ -89,6 +92,31 @@ const backgroundImages = backgroundImageFiles
   .filter(Boolean);
 
 // ========================================
+// 日付表示
+// ========================================
+
+function formatDate(date) {
+  const parsedDate = new Date(`${date}T00:00:00`);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return date;
+  }
+
+  return parsedDate
+    .toLocaleDateString("ja-JP", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .replaceAll("/", ".");
+}
+
+function formatMonth(month) {
+  const [year, monthNumber] = month.split("-");
+  return `${year}年${Number(monthNumber)}月`;
+}
+
+// ========================================
 // アルバムをフォルダから自動生成
 // ========================================
 
@@ -109,29 +137,53 @@ const albums = albumFolders
 
     const legacyInfo = legacyAlbumInfo[folder];
 
-    // YYYY-MM-DD 形式のフォルダ名を認識
-    const dateFromFolder = /^\d{4}-\d{2}-\d{2}$/.test(folder)
-      ? folder
-      : null;
+    // 週単位フォルダー YYYY-MM-DD_YYYY-MM-DD
+    const weeklyMatch = folder.match(
+      /^(\d{4}-\d{2}-\d{2})_(\d{4}-\d{2}-\d{2})$/
+    );
 
-    const date = legacyInfo?.date || dateFromFolder;
+    // 従来の日付単位フォルダー YYYY-MM-DD
+    const singleDateMatch = folder.match(
+      /^\d{4}-\d{2}-\d{2}$/
+    );
 
-    // 日付が判定できないフォルダはアルバム一覧に表示しない
+    const date =
+      legacyInfo?.date ||
+      (weeklyMatch
+        ? weeklyMatch[1]
+        : singleDateMatch
+          ? folder
+          : null);
+
+    // 日付が判定できないフォルダーや空のフォルダーは表示しない
     if (!date || folderImages.length === 0) {
       return null;
     }
 
-    const match = date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    const dateMatch = date.match(
+      /^(\d{4})-(\d{2})-(\d{2})$/
+    );
 
-    if (!match) {
+    if (!dateMatch) {
       return null;
     }
 
-    const [, , month, day] = match;
-    const title = `${Number(month)}/${Number(day)}の思い出`;
+    const [, , month, day] = dateMatch;
 
-    // 既存アルバムに表紙指定があればそれを使用
-    // 新しいアルバムは、ファイル名順で最初の写真を表紙にする
+    // 週アルバムなら開始日～終了日を表示
+    const displayDate = weeklyMatch
+      ? `${formatDate(weeklyMatch[1])} – ${formatDate(weeklyMatch[2])}`
+      : formatDate(date);
+
+    // アルバムタイトル
+    const title = weeklyMatch
+      ? `${Number(month)}/${Number(day)} – ${Number(
+          weeklyMatch[2].slice(5, 7)
+        )}/${Number(weeklyMatch[2].slice(8, 10))}の思い出`
+      : `${Number(month)}/${Number(day)}の思い出`;
+
+    // 既存アルバムに表紙指定があれば使用
+    // 新しいアルバムはファイル名順で最初の写真を表紙にする
     const coverImage =
       folderImages.find(
         (image) => image.filename === legacyInfo?.cover
@@ -142,6 +194,7 @@ const albums = albumFolders
       folder,
       title,
       date,
+      displayDate,
       description: "Moments captured in virtual worlds.",
       cover: coverImage.src,
       photos: folderImages.map((image) => {
@@ -160,48 +213,27 @@ const albums = albumFolders
 // アルバムの並び順・年月一覧
 // ========================================
 
-// 新しい日付のアルバムを先頭に並べる
+// 開始日が新しいアルバムを先頭に並べる
 const sortedAlbums = [...albums].sort((a, b) =>
   b.date.localeCompare(a.date)
 );
 
-// アルバムに存在する年月を重複なしで取得し、新しい順に並べる
+// アルバムに存在する年月を取得
 const availableMonths = [
-  ...new Set(sortedAlbums.map((album) => album.date.slice(0, 7))),
+  ...new Set(
+    sortedAlbums.map((album) => album.date.slice(0, 7))
+  ),
 ].sort((a, b) => b.localeCompare(a));
-
-// プルダウンに表示する年月
-function formatMonth(month) {
-  const [year, monthNumber] = month.split("-");
-  return `${year}年${Number(monthNumber)}月`;
-}
-
-// ========================================
-// 日付表示
-// ========================================
-
-function formatDate(date) {
-  const parsedDate = new Date(`${date}T00:00:00`);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return date;
-  }
-
-  return parsedDate
-    .toLocaleDateString("ja-JP", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    })
-    .replaceAll("/", ".");
-}
 
 // ========================================
 // Photography Page
 // ========================================
 
 export default function PhotographyPage() {
+  // ========================================
   // 背景スライドショー
+  // ========================================
+
   const [backgroundIndex, setBackgroundIndex] = useState(() =>
     backgroundImages.length > 0
       ? Math.floor(Math.random() * backgroundImages.length)
@@ -215,14 +247,18 @@ export default function PhotographyPage() {
 
     const timer = window.setInterval(() => {
       setBackgroundIndex(
-        (previous) => (previous + 1) % backgroundImages.length
+        (previous) =>
+          (previous + 1) % backgroundImages.length
       );
     }, 7000);
 
     return () => window.clearInterval(timer);
   }, []);
 
+  // ========================================
   // アルバムと写真の選択
+  // ========================================
+
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
@@ -238,7 +274,10 @@ export default function PhotographyPage() {
       )
     : sortedAlbums;
 
+  // ========================================
   // ライトボックスの写真移動
+  // ========================================
+
   function changePhoto(direction) {
     if (!selectedAlbum || selectedPhoto === null) {
       return;
@@ -259,7 +298,10 @@ export default function PhotographyPage() {
     });
   }
 
+  // ========================================
   // キーボード操作
+  // ========================================
+
   useEffect(() => {
     function handleKeyDown(event) {
       if (selectedPhoto === null) {
@@ -278,7 +320,9 @@ export default function PhotographyPage() {
 
           const count = selectedAlbum.photos.length;
 
-          return count > 0 ? (current + 1) % count : current;
+          return count > 0
+            ? (current + 1) % count
+            : current;
         });
       }
 
@@ -304,7 +348,10 @@ export default function PhotographyPage() {
     };
   }, [selectedPhoto, selectedAlbum]);
 
+  // ========================================
   // ライトボックス表示中は背景スクロールを止める
+  // ========================================
+
   useEffect(() => {
     if (selectedPhoto === null) {
       return undefined;
@@ -319,15 +366,23 @@ export default function PhotographyPage() {
     };
   }, [selectedPhoto]);
 
+  // ========================================
   // アルバム一覧に戻る
+  // ========================================
+
   function backToAlbums() {
     setSelectedPhoto(null);
     setSelectedAlbum(null);
   }
 
+  // ========================================
+  // JSX
+  // ========================================
+
   return (
     <div className="photography-intro">
       {/* 背景スライドショー */}
+
       <div
         className="photography-background"
         aria-hidden="true"
@@ -348,9 +403,11 @@ export default function PhotographyPage() {
       </div>
 
       {/* 共通ヘッダー */}
+
       <SiteHeader isPhotography />
 
       {/* メインコンテンツ */}
+
       <main className="photography-page">
         <a
           href={process.env.PUBLIC_URL + "/"}
@@ -360,6 +417,7 @@ export default function PhotographyPage() {
         </a>
 
         {/* ページタイトル */}
+
         <header className="photography-heading">
           <p className="photography-eyebrow">
             CREATIVE WORKS / PHOTOGRAPHY
@@ -372,10 +430,14 @@ export default function PhotographyPage() {
           </p>
         </header>
 
-        {/* アルバム一覧 */}
+        {/* ========================================
+            アルバム一覧
+        ======================================== */}
+
         {!selectedAlbum && (
           <>
             {/* 年月フィルター */}
+
             <div className="photography-filter">
               <label
                 className="photography-filter-label"
@@ -413,7 +475,9 @@ export default function PhotographyPage() {
 
               <p className="photography-filter-count">
                 {filteredAlbums.length}{" "}
-                {filteredAlbums.length === 1 ? "ALBUM" : "ALBUMS"}
+                {filteredAlbums.length === 1
+                  ? "ALBUM"
+                  : "ALBUMS"}
               </p>
             </div>
 
@@ -445,7 +509,7 @@ export default function PhotographyPage() {
                     </div>
 
                     <p className="photography-date">
-                      {formatDate(album.date)}
+                      {album.displayDate || formatDate(album.date)}
                     </p>
 
                     <h2>{album.title}</h2>
@@ -465,7 +529,10 @@ export default function PhotographyPage() {
           </>
         )}
 
-        {/* アルバム詳細 */}
+        {/* ========================================
+            アルバム詳細
+        ======================================== */}
+
         {selectedAlbum && (
           <section
             className="photography-detail"
@@ -488,7 +555,8 @@ export default function PhotographyPage() {
               <h2>{selectedAlbum.title}</h2>
 
               <p className="photography-subtitle">
-                {formatDate(selectedAlbum.date)}
+                {selectedAlbum.displayDate ||
+                  formatDate(selectedAlbum.date)}
               </p>
 
               <p className="photography-description">
@@ -497,6 +565,7 @@ export default function PhotographyPage() {
             </header>
 
             {/* 写真一覧 */}
+
             <div className="photography-gallery">
               {selectedAlbum.photos.map((photo, index) => (
                 <button
@@ -517,7 +586,10 @@ export default function PhotographyPage() {
           </section>
         )}
 
-        {/* ライトボックス */}
+        {/* ========================================
+            ライトボックス
+        ======================================== */}
+
         {selectedPhoto !== null && selectedAlbum && (
           <div
             className="photography-lightbox"
@@ -531,6 +603,7 @@ export default function PhotographyPage() {
             }}
           >
             {/* 閉じる */}
+
             <button
               type="button"
               className="photography-lightbox-close"
@@ -541,6 +614,7 @@ export default function PhotographyPage() {
             </button>
 
             {/* 前の写真 */}
+
             {selectedAlbum.photos.length > 1 && (
               <button
                 type="button"
@@ -553,6 +627,7 @@ export default function PhotographyPage() {
             )}
 
             {/* 拡大写真 */}
+
             <img
               className="photography-lightbox-image"
               src={selectedAlbum.photos[selectedPhoto].src}
@@ -560,6 +635,7 @@ export default function PhotographyPage() {
             />
 
             {/* 次の写真 */}
+
             {selectedAlbum.photos.length > 1 && (
               <button
                 type="button"
@@ -572,6 +648,7 @@ export default function PhotographyPage() {
             )}
 
             {/* 写真番号 */}
+
             <p className="photography-lightbox-counter">
               {String(selectedPhoto + 1).padStart(2, "0")}
               {" / "}
